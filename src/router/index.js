@@ -1,11 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import Home from '@/components/Home' /* Todo Create Meetup.vue */
-import Meetups from '@/components/Meetup/Meetups'
+import Home from '@/components/Home'
+import QR from '@/components/Class/QR'
 import Profile from '@/components/User/Profile'
 import Signup from '@/components/User/Signup'
 import Signin from '@/components/User/Signin'
+import ClassPage from '@/components/Class/ClassPage'
 
 Vue.use(Router)
 
@@ -17,9 +18,9 @@ export default new Router({
       component: Home
     },
     {
-      path: '/meetups',
-      name: 'Meetup',
-      component: Meetups
+      path: '/QR',
+      name: 'QR',
+      component: QR
     },
     {
       path: '/profile',
@@ -35,6 +36,11 @@ export default new Router({
       path: '/signin',
       name: 'Signin',
       component: Signin
+    },
+    {
+      path: '/classpage',
+      name: 'ClassPage',
+      component: ClassPage
     }
   ]
 })

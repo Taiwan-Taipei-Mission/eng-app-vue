@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-navigation-drawer v-model="sideNav"fixed>
+    <v-navigation-drawer v-model="sideNav" fixed>
     <v-list>
       <v-list-tile v-for="item in menuItems" :key="item.title">
         <v-list-tile-action>

@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
+import VueQrcodeReader from 'vue-qrcode-reader'
 
 Vue.use(Vuetify, { theme: {
   primary: '#4CAF50',
@@ -16,6 +17,7 @@ Vue.use(Vuetify, { theme: {
   warning: '#FFC107'
 }})
 
+Vue.use(VueQrcodeReader)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
