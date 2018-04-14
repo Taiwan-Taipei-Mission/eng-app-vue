@@ -1,7 +1,7 @@
 <template>
   <div>
     <p> The QR Scanner</p>
-    <qrcode-reader></qrcode-reader>
+    <qrcode-reader @decode="onDecode" :paused="paused"></qrcode-reader>
   </div>
 </template>
 
@@ -9,8 +9,17 @@
   export default {
     data () {
       return {
+        paused: false,
+        content: ''
       }
     },
-    name: 'App'
+
+    methods: {
+      onDecode (content) {
+        this.paused = true
+        alert(content)
+        this.$router.push('classpage')
+      }
+    }
   }
 </script>
