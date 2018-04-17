@@ -33,11 +33,3 @@
   </v-layout>
 </template>
 
-<style>
-  .mt-5
-  margin-top: ($spacer ) !important;
-
-  .py-2
-  padding-left: ($spacer * .5) !important
-
-</style>

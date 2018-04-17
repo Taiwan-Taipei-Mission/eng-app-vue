@@ -1,6 +1,5 @@
 <template>
   <div>
-    <p> The QR Scanner</p>
     <qrcode-reader @decode="onDecode" :paused="paused"></qrcode-reader>
   </div>
 </template>
@@ -16,9 +15,11 @@
 
     methods: {
       onDecode (content) {
-        this.paused = true
-        alert(content)
-        this.$router.push('classpage')
+        if (confirm(content)) {
+          this.$router.push('classpage')
+        } else {
+          this.onDecode = ''
+        }
       }
     }
   }
