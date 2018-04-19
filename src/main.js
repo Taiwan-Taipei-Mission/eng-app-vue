@@ -6,6 +6,9 @@ import router from './router'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import VueQrcodeReader from 'vue-qrcode-reader'
+import VueFire from 'vuefire'
+import firebase from 'firebase/app'
+import 'firebase/firestore'
 
 Vue.use(Vuetify, { theme: {
   primary: '#4CAF50',
@@ -19,6 +22,12 @@ Vue.use(Vuetify, { theme: {
 
 Vue.use(VueQrcodeReader)
 Vue.config.productionTip = false
+Vue.use(VueFire)
+firebase.initializeApp({
+  projectId: 'taiwaneng-alpha',
+  databaseURL: 'https://taiwaneng-alpha.firebaseio.com'
+})
+export const db = firebase.firestore()
 
 /* eslint-disable no-new */
 new Vue({
