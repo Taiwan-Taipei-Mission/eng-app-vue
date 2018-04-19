@@ -3,7 +3,7 @@
     <qrcode-reader @decode="onDecode" :paused="paused"></qrcode-reader>
   </div>
 </template>
-
+Xinzhuang Advanced
 <script>
   export default {
     data () {

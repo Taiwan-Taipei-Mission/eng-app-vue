@@ -9,6 +9,8 @@ import VueQrcodeReader from 'vue-qrcode-reader'
 import VueFire from 'vuefire'
 import firebase from 'firebase/app'
 import 'firebase/firestore'
+import Vuex from 'vuex'
+import {store} from './store/store.js'
 
 Vue.use(Vuetify, { theme: {
   primary: '#4CAF50',
@@ -21,6 +23,7 @@ Vue.use(Vuetify, { theme: {
 }})
 
 Vue.use(VueQrcodeReader)
+Vue.use(Vuex)
 Vue.config.productionTip = false
 Vue.use(VueFire)
 firebase.initializeApp({
@@ -33,6 +36,7 @@ export const db = firebase.firestore()
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })
