@@ -1,10 +1,30 @@
 <template>
   <div class="sign-up">
-    <p>Let's create a new account !</p>
-    <input type="text" v-model="email" placeholder="Email"><br>
-    <input type="password" v-model="password" placeholder="Password"><br>
-    <v-btn v-on:click="signUp">Sign Up</v-btn>
-    <span>or go back to <router-link to="/login">login</router-link>.</span>
+  <v-container fill-height>
+    <v-layout row wrap>
+      <v-flex class="text-xs-center">
+        <!--<h2>Sign in</h2>-->
+        <v-text-field
+          label="Email"
+          value=""
+          v-model="email"
+        ></v-text-field>
+        <v-text-field
+          name="input-10-1"
+          label="Password"
+          hint="At least 6 characters"
+          v-model="password"
+          min="6"
+          :append-icon="e1 ? 'visibility' : 'visibility_off'"
+          :append-icon-cb="() => (e1 = !e1)"
+          :type="e1 ? 'password' : 'text'"
+          counter
+        ></v-text-field>
+        <v-btn large v-on:click="signUp" color="secondary">Create an Account</v-btn>
+        <p>Already have an account? <router-link to="/signin">Sign in here</router-link></p>
+      </v-flex>
+    </v-layout>
+  </v-container>
   </div>
 </template>
 
@@ -15,7 +35,8 @@
     data: function () {
       return {
         email: '',
-        password: ''
+        password: '',
+        e1: true
       }
     },
     methods: {
@@ -32,3 +53,14 @@
     }
   }
 </script>
+
+<style scoped>  /* "scoped" attribute limit the CSS to this component only */
+p {
+  margin-top: 40px;
+  font-size: 13px;
+}
+p a {
+  text-decoration: underline;
+  cursor: pointer;
+}
+</style>
