@@ -14,7 +14,7 @@
       <h3>Wednesday 7:00 PM</h3>
     </v-flex>
     <v-flex xs12 class="text-xs-center">
-      <v-btn large route to="/" color="secondary">Check in to class</v-btn>
+      <v-btn large route to="home" color="secondary">Check in to class</v-btn>
     </v-flex>
     <v-flex xs12>
       <h2 class="text-xs-center">Homework</h2>

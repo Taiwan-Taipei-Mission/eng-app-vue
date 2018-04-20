@@ -10,22 +10,39 @@ import ClassPage from '@/components/Class/ClassPage'
 
 Vue.use(Router)
 
-export default new Router({
+let router = new Router({
   routes: [
     {
+      path: '*',
+      redirect: '/signin'
+    },
+    {
       path: '/',
+      redirect: '/signin'
+    },
+    {
+      path: '/home',
       name: 'Home',
-      component: Home
+      component: Home,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/QR',
       name: 'QR',
-      component: QR
+      component: QR,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/profile',
       name: 'Profile',
-      component: Profile
+      component: Profile,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/signup',
@@ -40,7 +57,11 @@ export default new Router({
     {
       path: '/classpage',
       name: 'ClassPage',
-      component: ClassPage
+      component: ClassPage,
+      meta: {
+        requiresAuth: true
+      }
     }
   ]
 })
+export default router
