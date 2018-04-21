@@ -1,13 +1,13 @@
 <template>
   <v-app>
-    <v-navigation-drawer v-model="sideNav" fixed>
+    <v-navigation-drawer temporary v-model="sideNav" fixed>
     <v-list>
-      <v-list-tile v-for="item in menuItems" :key="item.title">
+      <v-list-tile v-for="item in menuItems" :key="item.title" router :to="item.link">
         <v-list-tile-action>
           <v-icon>{{ item.icon }}</v-icon>
         </v-list-tile-action>
         <v-list-tile-action></v-list-tile-action>
-        <v-list-tile-content>{{ item. title }}</v-list-tile-content>
+        <v-list-tile-content>{{ item. title }} </v-list-tile-content>
       </v-list-tile>
     </v-list>
     </v-navigation-drawer>
@@ -16,7 +16,7 @@
       <v-toolbar-title>Welcome</v-toolbar-title>
               <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-xs-only">
-               <v-btn flat v-for="item in menuItems" :key="item.title">
+               <v-btn flat v-for="item in menuItems" :key="item.title"  router :to="item.link">
           <v-icon left dark>{{ item.icon }}</v-icon>
                  {{ item.title }}
                </v-btn>
@@ -34,12 +34,12 @@ export default {
     return {
       sideNav: false,
       menuItems: [
-        { icon: 'home', title: 'My Class' },
-        { icon: 'location_on', title: 'Find My Class' },
-        { icon: 'settings', title: 'Settings' },
-        { icon: 'help', title: 'Help' },
-        { icon: 'face', title: 'Sign up' },
-        { icon: 'lock_open', title: 'Sign in' }
+        { icon: 'home', title: 'Home', link: '/home' },
+        { icon: 'location_on', title: 'Find My Class', link: '' },
+        { icon: 'settings', title: 'Settings', link: '' },
+        { icon: 'help', title: 'Help', link: '' },
+        { icon: 'face', title: 'Sign up', link: '/signup' },
+        { icon: 'lock_open', title: 'Sign in', link: '/signin' }
       ]
     }
   },
