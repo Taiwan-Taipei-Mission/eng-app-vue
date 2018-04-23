@@ -4,7 +4,7 @@
     <v-avatar  :size="80">
     <img src="../../assets/photo_icon.png"/>
     </v-avatar>
-    <p>President Jergensen Advanced Class</p>
+    <p> {{ teacherName }}    {{ classLocation }}</p>
       </v-flex>
     <v-flex>
       <v-spacer></v-spacer>
@@ -33,3 +33,24 @@
   </v-layout>
 </template>
 
+<script>
+  export default {
+    data () {
+      return {
+        paused: false,
+        content: ''
+      }
+    },
+
+    methods: {
+    },
+    computed: {
+      teacherName () {
+        return this.$store.state.teacherName
+      },
+      classLocation () {
+        return this.$store.state.classLocation
+      }
+    }
+  }
+</script>

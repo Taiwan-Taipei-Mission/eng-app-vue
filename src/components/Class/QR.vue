@@ -1,6 +1,6 @@
 <template>
   <div>
-    <qrcode-reader @decode="onDecode" :paused="paused"></qrcode-reader>
+    <qrcode-reader @decode="onDecode"></qrcode-reader>
   </div>
 </template>
 Xinzhuang Advanced
@@ -16,6 +16,7 @@ Xinzhuang Advanced
     methods: {
       onDecode (content) {
         if (confirm(content)) {
+          this.$store.dispatch('classLocation', content)
           this.$router.push('classpage')
         } else {
           this.onDecode = ''

@@ -1,7 +1,11 @@
+<!--Vuetifyjs.com - Makes code way easier. Built using Vuejs. vuejs.org-->
 <template>
   <div class="login">
+    <!---->
     <v-container fill-height>
+      <!--Makes reactive.Replaces media queries in HTML. From Vuetify.-->
       <v-layout row wrap>
+        <!--Center in the screen. From Vuetify-->
         <v-flex class="text-xs-center">
     <!--<h2>Sign in</h2>-->
           <v-text-field

@@ -27,21 +27,21 @@ Vue.use(Vuex)
 Vue.config.productionTip = false
 Vue.use(VueFire)
 
-var config = {
-  apiKey: 'AIzaSyCPg6kfcYxuPHwyMW9SsmVqyPO4AUcWQVM',
-  authDomain: 'taiwaneng-alpha.firebaseapp.com',
-  databaseURL: 'https://taiwaneng-alpha.firebaseio.com',
-  projectId: 'taiwaneng-alpha',
-  storageBucket: 'taiwaneng-alpha.appspot.com',
-  messagingSenderId: '920652444483'
-}
-firebase.initializeApp(config)
-
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
   store,
   components: { App },
-  template: '<App/>'
+  template: '<App/>',
+  created () {
+    firebase.initializeApp({
+      apiKey: 'AIzaSyCPg6kfcYxuPHwyMW9SsmVqyPO4AUcWQVM',
+      authDomain: 'taiwaneng-alpha.firebaseapp.com',
+      databaseURL: 'https://taiwaneng-alpha.firebaseio.com',
+      projectId: 'taiwaneng-alpha',
+      storageBucket: 'taiwaneng-alpha.appspot.com',
+      messagingSenderId: '920652444483'
+    })
+  }
 })
