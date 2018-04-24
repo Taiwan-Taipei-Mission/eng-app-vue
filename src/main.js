@@ -45,3 +45,5 @@ new Vue({
     })
   }
 })
+
+export const db = firebase.firestore()

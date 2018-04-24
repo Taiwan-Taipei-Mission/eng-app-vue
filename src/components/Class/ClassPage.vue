@@ -1,6 +1,12 @@
 <template>
   <v-layout row wrap>
     <v-flex xs6>
+      <div>
+        <article v-for="(location, idx) in locations" :key="idx">
+          <img :src="location.images">
+          <h1>{{ location.name }}</h1>
+        </article>
+      </div>
     <v-avatar  :size="80">
     <img src="../../assets/photo_icon.png"/>
     </v-avatar>
@@ -34,14 +40,22 @@
 </template>
 
 <script>
+  import { db } from '../../main'
+
   export default {
+
     data () {
       return {
         paused: false,
-        content: ''
+        content: '',
+        locations: []
       }
     },
-
+    firestore () {
+      return {
+        locations: db.collection('locations').orderBy('createdAt')
+      }
+    },
     methods: {
     },
     computed: {
