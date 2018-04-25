@@ -12,8 +12,9 @@
             name="input-3"
             label="Enter Class Code"
             value=""
+            v-model="classLocationInput"
           ></v-text-field>
-          <v-btn large class="secondary" route to="ClassPage">Submit</v-btn> <!--TODO Add 'disable' class to this button-->
+          <v-btn large class="secondary" v-on:click="classLocation" route to="ClassPage" >Submit</v-btn> <!--TODO Add 'disable' class to this button-->
         </v-flex>
       </v-layout>
     </v-container>
@@ -26,7 +27,7 @@
   export default {
     data () {
       return {
-        msg: 'Welcome to Your Vue.js App'
+        classLocationInput: ''
       }
     },
     methods: {
@@ -34,6 +35,9 @@
         firebase.auth().signOut().then(() => {
           this.$router.replace('signin')
         })
+      },
+      classLocation () {
+        this.$store.dispatch('classLocation', this.classLocationInput.toLowerCase())
       }
     }
   }

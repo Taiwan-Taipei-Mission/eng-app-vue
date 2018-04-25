@@ -1,23 +1,18 @@
 <template>
   <v-layout row wrap>
     <v-flex xs6>
-      <div>
-        <article v-for="(location, idx) in locations" :key="idx">
-          <img :src="location.images">
-          <h1>{{ location.name }}</h1>
-        </article>
-      </div>
     <v-avatar  :size="80">
     <img src="../../assets/photo_icon.png"/>
     </v-avatar>
-    <p> {{ teacherName }}    {{ classLocation }}</p>
+    <!--<p> {{ teacherName }}    {{ classLocation }}</p>-->
+      <p>{{ QR.teacherName }}  {{ QR.classLevel }}</p>
       </v-flex>
     <v-flex>
       <v-spacer></v-spacer>
     </v-flex>
     <v-flex xs6 class="mt-5">
-      <h2>Xinzhuang</h2>
-      <h3>Wednesday 7:00 PM</h3>
+      <h2>{{ QR.classLocation }}</h2>
+      <h3>{{ QR.classTime }}</h3>
     </v-flex>
     <v-flex xs12 class="text-xs-center">
       <v-btn large route to="home" color="secondary">Check in to class</v-btn>
@@ -35,6 +30,7 @@
           <v-btn flat color="orange" href="https://www.lds.org/general-conference/2011/04/finding-joy-through-loving-service?lang=eng">Read</v-btn>
         </v-card-actions>
       </v-card>
+      <v-btn v-on:click="test">Click dis</v-btn>
     </v-flex>
   </v-layout>
 </template>
@@ -48,15 +44,18 @@
       return {
         paused: false,
         content: '',
-        locations: []
+        QR: []
       }
     },
     firestore () {
       return {
-        locations: db.collection('locations').orderBy('createdAt')
+        QR: db.collection('QR').doc(this.$store.state.classLocation)
       }
     },
     methods: {
+      test () {
+        console.log(this.QR)
+      }
     },
     computed: {
       teacherName () {

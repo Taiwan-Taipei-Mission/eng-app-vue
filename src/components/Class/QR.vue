@@ -3,7 +3,7 @@
     <qrcode-reader @decode="onDecode"></qrcode-reader>
   </div>
 </template>
-Xinzhuang Advanced
+
 <script>
   export default {
     data () {
@@ -16,7 +16,7 @@ Xinzhuang Advanced
     methods: {
       onDecode (content) {
         if (confirm(content)) {
-          this.$store.dispatch('classLocation', content)
+          this.$store.dispatch('classLocation', content.toLowerCase())
           this.$router.push('classpage')
         } else {
           this.onDecode = ''
