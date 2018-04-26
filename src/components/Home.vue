@@ -13,6 +13,7 @@
             label="Enter Class Code"
             value=""
             v-model="classLocationInput"
+            v-on:keyup.enter="classLocation"
           ></v-text-field>
           <v-btn large class="secondary" v-on:click="classLocation" route to="ClassPage" >Submit</v-btn> <!--TODO Add 'disable' class to this button-->
         </v-flex>
@@ -38,6 +39,7 @@
       },
       classLocation () {
         this.$store.dispatch('classLocation', this.classLocationInput.toLowerCase())
+        this.$router.replace('classpage')
       }
     }
   }

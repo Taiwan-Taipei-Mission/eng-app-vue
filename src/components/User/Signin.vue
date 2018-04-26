@@ -12,6 +12,7 @@
             label="Email"
             value=""
             v-model="email"
+            v-on:keyup.enter="signIn"
           ></v-text-field>
           <v-text-field
             name="input-10-1"
@@ -23,6 +24,7 @@
             :append-icon-cb="() => (e1 = !e1)"
             :type="e1 ? 'password' : 'text'"
             counter
+            v-on:keyup.enter="signIn"
           ></v-text-field>
     <v-btn large v-on:click="signIn" color="secondary">Sign in</v-btn>
     <p>Don't have have an account? <router-link to="/signup">Sign up here</router-link></p>

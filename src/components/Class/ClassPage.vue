@@ -2,10 +2,10 @@
   <v-layout row wrap>
     <v-flex xs6>
     <v-avatar  :size="80">
-    <img src="../../assets/photo_icon.png"/>
+    <img src="../../assets/photo_icon.png"/> <!--TODO Add dynamically changing photos for teachers-->
     </v-avatar>
-    <!--<p> {{ teacherName }}    {{ classLocation }}</p>-->
-      <p>{{ QR.teacherName }}  {{ QR.classLevel }}</p>
+    <!--<p> {{ teacherName }}    {{ classLocation }}</p>--> <!--Being used to test if Vuex is working-->
+      <p>{{ QR.teacherName }}  {{ QR.classLevel }}</p> <!--TODO properly style these elements with better alignment-->
       </v-flex>
     <v-flex>
       <v-spacer></v-spacer>
@@ -19,17 +19,20 @@
     </v-flex>
     <v-flex xs12>
       <h2 class="text-xs-center">Homework</h2>
-      <v-card>
+      <div>
+      <v-card v-for="(homework, idx) in homework" :key="idx">
         <v-card-title primary-title>
           <div>
-            <h3 class="headline mb-0">Service 4/12</h3>
-            <div>Read the article on LDS.org entitled: <br>Finding Joy through Loving Service</div>
+            <h3 class="headline mb-0">{{homework.homeworkDate}}</h3> <!--TODO We need to fix it so that the homework assignments are ordered by date. Newest first-->
+            <div>{{homework.description}}</div>
           </div>
         </v-card-title>
         <v-card-actions>
-          <v-btn flat color="orange" href="https://www.lds.org/general-conference/2011/04/finding-joy-through-loving-service?lang=eng">Read</v-btn>
+          <v-btn flat color="orange" :href="homework.homeworkURL">Read</v-btn>
         </v-card-actions>
+        <hr> <!--TODO Swap this out for a good looking spacer, or leave it.-->
       </v-card>
+      </div>
       <v-btn v-on:click="test">Click dis</v-btn>
     </v-flex>
   </v-layout>
@@ -44,25 +47,24 @@
       return {
         paused: false,
         content: '',
-        QR: []
+        QR: [],
+        homework: []
       }
     },
     firestore () {
       return {
-        QR: db.collection('QR').doc(this.$store.state.classLocation)
+        QR: db.collection('QR').doc(this.$store.state.classLocation),
+        homework: db.collection('QR').doc(this.$store.state.classLocation).collection('homework')
       }
     },
     methods: {
       test () {
-        console.log(this.QR)
+        console.log(this.homework)
       }
     },
     computed: {
       teacherName () {
-        return this.$store.state.teacherName
-      },
-      classLocation () {
-        return this.$store.state.classLocation
+        return this.$store.state.teacherName /* Not currently being used, orignally created to test if the vue store was working properly */
       }
     }
   }
