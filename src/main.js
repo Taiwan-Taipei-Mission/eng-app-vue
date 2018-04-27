@@ -2,7 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
-import router from './router'
+import {router} from '@/router'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import VueQrcodeReader from 'vue-qrcode-reader'
@@ -11,6 +11,7 @@ import firebase from 'firebase/app'
 import 'firebase/firestore'
 import Vuex from 'vuex'
 import {store} from './store/store.js'
+import auth from '@/auth'
 
 Vue.use(Vuetify, { theme: {
   primary: '#4CAF50',
@@ -32,18 +33,11 @@ new Vue({
   el: '#app',
   router,
   store,
+  beforeCreate () {
+    auth.init(this)
+  },
   components: { App },
-  template: '<App/>',
-  created () {
-    firebase.initializeApp({
-      apiKey: 'AIzaSyCPg6kfcYxuPHwyMW9SsmVqyPO4AUcWQVM',
-      authDomain: 'taiwaneng-alpha.firebaseapp.com',
-      databaseURL: 'https://taiwaneng-alpha.firebaseio.com',
-      projectId: 'taiwaneng-alpha',
-      storageBucket: 'taiwaneng-alpha.appspot.com',
-      messagingSenderId: '920652444483'
-    })
-  }
+  template: '<App/>'
 })
 
 export const db = firebase.firestore()

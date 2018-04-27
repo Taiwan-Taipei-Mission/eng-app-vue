@@ -1,6 +1,8 @@
 import Vuex from 'vuex'
 import Vue from 'vue'
 
+import user from './modules/user'
+
 Vue.use(Vuex)
 
 export const store = new Vuex.Store({
@@ -12,9 +14,6 @@ export const store = new Vuex.Store({
     }
   },
   mutations: {
-    setUser (state, user) {
-      state.user = user
-    },
     classLocation: (state, payload) => {
       state.classLocation = payload
     }
@@ -27,5 +26,8 @@ export const store = new Vuex.Store({
     classLocation: ({ commit }, payload) => {
       commit('classLocation', payload)
     }
+  },
+  modules: {
+    user
   }
 })

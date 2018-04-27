@@ -13,7 +13,7 @@
     </v-navigation-drawer>
       <v-toolbar dark class="primary">
         <v-toolbar-side-icon @click="sideNav =!sideNav" class="hidden-sm-and-up"></v-toolbar-side-icon>
-      <v-toolbar-title>Welcome</v-toolbar-title>
+      <v-toolbar-title>Taiwan Eng</v-toolbar-title>
               <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-xs-only">
                <v-btn flat v-for="item in menuItems" :key="item.title"  router :to="item.link">
