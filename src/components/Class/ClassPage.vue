@@ -48,23 +48,50 @@
         paused: false,
         content: '',
         QR: [],
-        homework: []
+        homework: [],
+        classLocation: [],
+        test1: []
       }
+    },
+    created () {
+      this.firestore2()
     },
     firestore () {
       return {
-        QR: db.collection('QR').doc(this.$store.state.classLocation),
-        homework: db.collection('QR').doc(this.$store.state.classLocation).collection('homework')
+        classLocation: db.collection('Users').doc(this.user.email)
       }
     },
     methods: {
       test () {
         console.log(this.homework)
+      },
+      firestore2 () {
+        db.collection('Users').doc(this.user.email).get().then(doc => {
+          if (doc.exists) {
+            var userInfo = doc.data()
+            console.log(userInfo.location)
+            db.collection('QR').doc(userInfo.location).get().then(doc => {
+              if (doc.exists) {
+                var classDetails = doc.data()
+                this.QR = classDetails
+                db.collection('QR').doc(userInfo.location).collection('homework').get().then((snap) => { /* Must be converted to objects */
+                  const items = snap.docs.reduce((res, item) => (
+                    {...res, [item.id]: item.data()}),
+                  {})
+                  this.homework = items
+                })
+              }
+            })
+          } else {
+            // doc.data() will be undefined in this case
+            console.log('No such document!')
+          }
+        })
       }
     },
     computed: {
-      teacherName () {
-        return this.$store.state.teacherName /* Not currently being used, orignally created to test if the vue store was working properly */
+      user () {
+        return this.$store.getters['user/user']
       }
     }
   }

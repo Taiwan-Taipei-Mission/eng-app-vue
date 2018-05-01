@@ -30,6 +30,7 @@
 <script>
   import firebase from 'firebase'
   import auth from '@/auth'
+  import { db } from '../main'
 
   export default {
     data () {
@@ -45,6 +46,7 @@
       },
       classLocation () {
         this.$store.dispatch('classLocation', this.classLocationInput.toLowerCase())
+        db.collection('Users').doc(this.user.email).set({location: this.classLocationInput.toLowerCase(), studentName: this.user.displayName, photo: this.user.photoURL + '?width=9999', uid: this.user.uid})
         this.$router.replace('classpage')
       },
       logOut () {

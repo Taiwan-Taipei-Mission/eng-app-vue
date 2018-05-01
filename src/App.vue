@@ -35,7 +35,7 @@ export default {
       sideNav: false,
       menuItems: [
         { icon: 'home', title: 'Home', link: '/home' },
-        { icon: 'location_on', title: 'Find My Class', link: '' },
+        { icon: 'location_on', title: 'Find My Class', link: '/classpage' },
         { icon: 'settings', title: 'Settings', link: '' },
         { icon: 'help', title: 'Help', link: '' },
         { icon: 'face', title: 'Sign up', link: '/signup' },
