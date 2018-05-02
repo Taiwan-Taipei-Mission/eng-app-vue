@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "firebase": "^4.12.1",
+    "firebaseui": "^2.7.0",
     "fs": "0.0.1-security",
     "instascan": "^1.0.0",
     "jsqr": "^1.0.4",
