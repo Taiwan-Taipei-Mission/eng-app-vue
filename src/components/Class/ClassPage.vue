@@ -2,7 +2,7 @@
   <v-layout row wrap>
     <v-flex xs6>
     <v-avatar  :size="80">
-    <img src="../../assets/photo_icon.png"/> <!--TODO Add dynamically changing photos for teachers-->
+    <img :src="QR.teacherPic"> <!--TODO Add dynamically changing photos for teachers-->
     </v-avatar>
     <!--<p> {{ teacherName }}    {{ classLocation }}</p>--> <!--Being used to test if Vuex is working-->
       <p>{{ QR.teacherName }}  {{ QR.classLevel }}</p> <!--TODO properly style these elements with better alignment-->
@@ -15,7 +15,7 @@
       <h3>{{ QR.classTime }}</h3>
     </v-flex>
     <v-flex xs12 class="text-xs-center">
-      <v-btn large route to="home" color="secondary">Check in to class</v-btn>
+      <v-btn round large route to="home" color="secondary">Check in to class</v-btn>
     </v-flex>
     <v-flex xs12>
       <h2 class="text-xs-center">Homework</h2>

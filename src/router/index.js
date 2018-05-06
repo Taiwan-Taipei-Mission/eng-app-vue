@@ -29,6 +29,6 @@ router.beforeEach((to, from, next) => {
   let guestOnly = to.matched.some(record => record.meta.guestOnly)
 
   if (requireAuth && !currentUser) next('auth')
-  else if (guestOnly && currentUser) next('dashboard')
+  else if (guestOnly && currentUser) next('classpage')
   else next()
 })
