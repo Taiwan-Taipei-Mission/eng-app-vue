@@ -7,6 +7,7 @@ import Home from '@/components/Home'
 import QR from '@/components/Class/QR'
 import ClassPage from '@/components/Class/ClassPage'
 import Auth from '@/components/User/Auth'
+import Help from '@/components/User/Help'
 
 Vue.use(Router)
 
@@ -15,6 +16,7 @@ var routes = [
   { path: '/home', name: 'home', component: Home, meta: { requireAuth: true } },
   { path: '/QR', name: 'QR', component: QR, meta: { requireAuth: true } },
   { path: '/classpage', name: 'ClassPage', component: ClassPage, meta: { requireAuth: true } },
+  { path: '/help', name: 'Help', component: Help, meta: { requireAuth: false } },
   { path: '*', redirect: '/home' }
 ]
 

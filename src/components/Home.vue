@@ -3,12 +3,11 @@
     <v-container fill-height>
       <v-layout row wrap>
         <v-flex class="text-xs-center">
-
-           <h1>Welcome!</h1>
+           <!--<h1>Welcome!</h1>
             <img :src="user.photoURL" width="100"> <br>
             <h3>{{user.displayName}}</h3>
                     <p>{{user.email}}</p>
-                 <v-btn @click="logOut">Log out</v-btn>
+                 <v-btn @click="logOut">Log out</v-btn>-->
           <h1>Class Check-in</h1>
           <v-btn large route to ="/QR" class="secondary">
             Scan QR Code
@@ -35,7 +34,8 @@
   export default {
     data () {
       return {
-        classLocationInput: ''
+        classLocationInput: '',
+        alert: ''
       }
     },
     methods: {
@@ -46,7 +46,10 @@
       },
       classLocation () {
         this.$store.dispatch('classLocation', this.classLocationInput.toLowerCase())
-        db.collection('Users').doc(this.user.email).set({location: this.classLocationInput.toLowerCase(), studentName: this.user.displayName, photo: this.user.photoURL + '?width=9999', uid: this.user.uid})
+        let originalString = this.classLocationInput.toLowerCase()// TODO FINISH WRITING THIS CODE split location to search firebase
+        const splitString = originalString.split(' ')
+        console.log(splitString)
+        db.collection('Users').doc(this.user.email).set({location: splitString[0] + ' ' + splitString[1], studentName: this.user.displayName, photo: this.user.photoURL + '?width=9999', uid: this.user.uid})
         this.$router.replace('classpage')
       },
       logOut () {
