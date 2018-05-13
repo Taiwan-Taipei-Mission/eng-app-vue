@@ -1,66 +1,113 @@
 <template>
-<div>
-  <template v-if="loading" >
-    <v-container fill-height>
-      <v-layout row justify-center align-center fill-height>
-        <v-progress-circular indeterminate :size="50" :width="5" color="green"></v-progress-circular>
-      </v-layout>
-    </v-container>
-  </template>
-  <template v-if="pageLoad !== false">
-  <v-layout row wrap>
-    <!--<v-btn color="primary" @click="alert = !alert">Toggle</v-btn>-->
-    <v-flex xs6>
-    <v-avatar  :size="90">
-    <img :src="QR.teacherPic">
-    </v-avatar>
-      <!--<p> {{ teacherName }}    {{ classLocation }}</p>--> <!--Being used to test if Vuex is working-->
-      <p class="teacher">{{ QR.teacherName }}</p>
-      <p>{{ QR.classLevel }}</p> <!---->
-    </v-flex>
-    <v-flex>
-      <v-spacer></v-spacer>
-    </v-flex>
-    <v-flex xs6 class="mt-5">
-      <h2 class="className">{{ QR.classLocation }}</h2>
-      <h3 class="classTime">{{ QR.classTime }}</h3>
-    </v-flex>
-    <v-flex xs12 class="text-xs-center">
-      <v-btn round class="check-in" large route to="home" color="secondary">Check in to class</v-btn>
-    </v-flex>
-    <v-flex xs12>
-      <h2 class="text-xs-center">Homework</h2>
-      <v-container
-        fluid
-        style="min-height: 0;"
-        grid-list-lg
-        id="homeworkBox"
-        v-for="(homework, idx) in homework" :key="idx"
-      >
-      <div>
-        <v-card>
-          <v-card-title primary-title>
-            <div>
-              <h3 class="headline mb-0">{{homework.homeworkDate}}</h3> <!--TODO We need to fix it so that the homework assignments are ordered by date. Newest first-->
-              <div>{{homework.description}}</div>
-            </div>
-          </v-card-title>
-          <v-card-actions>
-            <v-btn flat color="orange" :href="homework.homeworkURL">Read</v-btn>
-          </v-card-actions>
-        </v-card>
-      </div>
+  <div>
+
+    <template v-if="loading" >
+      <v-container fill-height>
+        <v-layout row justify-center align-center fill-height>
+          <v-progress-circular indeterminate :size="50" :width="5" color="green"></v-progress-circular>
+        </v-layout>
       </v-container>
-      <v-btn v-on:click="test">Click dis</v-btn>
+    </template>
+
+    <template v-if="alert">
+      <v-layout row justify-center>
+        <v-dialog v-model="alert" persistent max-width="290">
+          <v-card>
+            <v-card-title class="headline">Welcome!</v-card-title>
+            <v-card-text>Looks like you haven't checked into a class before, just tap the button below to get started.</v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="green darken-1" flat @click.native="alert = false" route to="checkIn">Check into Class</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-layout>
+    </template>
+
+<template v-if="alert2">
+  <v-layout row justify-center wrap>
+    <v-flex xs12>
+  <v-alert v-model="alert2" type="error">
+    "{{searchString}}" not found. Please check your spelling and try again.
+  </v-alert>
     </v-flex>
-    <!--<v-alert
-      :value="alert"
-      type="error"
-      transition="scale-transition"
-    >You have not checked into a class yet</v-alert>-->
+    <v-flex xs12 class="text-xs-center"">
+  <v-btn medium route to="checkIn" color="secondary">Check in to class</v-btn>
+    </v-flex>
   </v-layout>
-  </template>
-</div>
+</template>
+
+
+
+<template v-if="pageLoad !== false">
+    <template>
+  <v-toolbar dark flat extended extension-height="140" class="primary" height="0"> <!--TODO Set height of toolbar to 0px-->
+    <v-layout row slot="extension" >
+      <v-flex xs5 class="classinfo px-4">
+        <v-avatar
+          size="100"
+          color="grey lighten-4"
+          style="vertical-align:middle"
+          class="elevation-{24}"
+        >
+          <img :src="QR.teacherPic"  alt="avatar">
+        </v-avatar>
+        <h4>{{ QR.teacherName }}</h4>
+      </v-flex>
+      <v-flex class="classinfo" xs7>
+        <h2>{{ QR.classLocation }} {{ QR.classLevel }}</h2>
+        <h3>{{ QR.classTime }}</h3>
+      </v-flex>
+    </v-layout>
+  </v-toolbar>
+    <v-layout row>
+    <v-flex xs12 class="text-xs-center ">
+      <v-btn block class="check-in ma-0" large route to="checkIn" color="secondary">Check in to class</v-btn>
+    </v-flex>
+    </v-layout>
+    <v-list two-line> <!--TODO Restrict amount of homework that that can be loaded and load by newest first-->
+      <v-subheader>Homework</v-subheader>
+      <template v-for="(homework, index) in homework">
+        <v-list-tile
+          :key="homework.homeworkDate"
+          avatar
+          ripple
+          @click="indicate(index)"
+        >
+          <v-list-tile-content>
+            <v-list-tile-title class="text--primary">{{homework.homeworkDate}}</v-list-tile-title>
+            <v-list-tile-sub-title>{{homework.description}}</v-list-tile-sub-title>
+          </v-list-tile-content>
+          <v-list-tile-action>
+            <v-list-tile-action-text></v-list-tile-action-text> <!-- hovers above mailbox icon, might want to add a feature in the future with this-->
+            <v-icon
+              color="grey lighten-1"
+            >local_post_office</v-icon>
+          </v-list-tile-action>
+        </v-list-tile>
+        <v-divider></v-divider>
+      </template>
+    </v-list>
+ </template>
+
+      <v-layout row justify-center>
+        <v-dialog v-model="dialog"  max-width="290">
+          <v-card>
+            <v-card-title class="headline">{{message.homeworkDate}}</v-card-title>
+            <v-card-text>{{message.description}}</v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn flat @click.native="dialog = false">Cancel</v-btn>
+              <v-btn color="green darken-1" flat :loading="loading3" :disabled="loading3" @click.native="loading3 = true" :href="this.message.homeworkURL"
+              >Open</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-layout>
+    </template>
+    <!--<v-btn @click="test" color="primary" dark>Open Dialog</v-btn>  -->
+  </div>
+
 </template>
 
 <script>
@@ -76,9 +123,14 @@
         homework: [],
         classLocation: [],
         test1: [],
+        message: [],
         loading: true,
         alert: false,
-        pageLoad: false
+        alert2: false,
+        pageLoad: false,
+        dialog: false,
+        loading3: false,
+        searchString: ''
       }
     },
     created () {
@@ -91,13 +143,20 @@
     },
     methods: {
       test () {
-        console.log(this.homework)
+        console.log(this.message)
+      },
+      indicate (index) {
+        console.log(index)
+        this.dialog = true
+        this.message = this.homework[index]
+        console.log(this.message.title)
       },
       firestore2 () {
         db.collection('Users').doc(this.user.email).get().then(doc => {
           if (doc.exists) {
             var userInfo = doc.data()
             console.log(userInfo.location)
+            this.searchString = userInfo.location
             let originalString = userInfo.location
             const splitString = originalString.split(' ') // TODO FINISH WRITING THIS CODE split location to search firebase
             console.log(splitString + 'This is the classPage')
@@ -113,12 +172,17 @@
                   this.pageLoad = true
                   this.loading = false
                 })
+              } else {
+                console.log('error 2') /* todo add error message dialog for user */
+                this.loading = false
+                this.alert2 = true
               }
             })
           } else {
             // doc.data() will be undefined in this case
-            console.log('No such document!')
+            console.log('No such document! user has no location saved in their user document. error 1')
             this.alert = true
+            this.loading = false
           }
         })
       }
@@ -131,7 +195,7 @@
   }
 </script>
 
-<style>
+<!--<style>
   #homeworkBox {
     padding-top: 4px;
     padding-bottom: 4px;
@@ -143,36 +207,19 @@
     position: absolute;
     top: 0; left: 0; bottom: 0; right: 0;
   }
-</style>
-<!--<style scoped>
+</style>-->
+<style scoped>
   .check-in {
     margin-top: 10px;
   }
-  p {
+  h4 {
     margin: auto 0;
     text-align: center;
-    margin-right: 60px;
-    margin-left: 20px;
+    color: #fff;
+    font-weight: 400
+  },
+  .classinfo {
+    align-items: center;
+    justify-content: center;
   }
-  img {
-    min-width: 80px;
-    min-height: 40px;
-    margin-top: 40px;
-    margin-left: 60px;
-  }
-  .teacher {
-    margin-top: 20px;
-    margin-right: 60px;
-    margin-left: 20px;
-  }
-  .className {
-    text-align: center;
-    font-size: 30px;
-    margin-right: 13px;
-  }
-  .classTime {
-    text-align: center;
-    font-size: 18px;
-    margin-right: 13px;
-  }
-</style>-->
+</style>

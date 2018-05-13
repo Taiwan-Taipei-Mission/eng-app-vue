@@ -30,9 +30,10 @@
           </v-list-tile>
         </v-list>
       </v-navigation-drawer>
-      <v-toolbar dark class="primary">
+
+      <v-toolbar dark class="primary" > <!--v-if="$route.name == 'ClassPage'-->
         <v-toolbar-side-icon @click="sideNav =!sideNav" class="hidden-sm-and-up"></v-toolbar-side-icon>
-        <v-toolbar-title>Taiwan Eng</v-toolbar-title>
+        <v-toolbar-title></v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items class="hidden-xs-only">
           <v-btn flat v-for="item in menuItems" :key="item.title"  router :to="item.link">
@@ -41,6 +42,8 @@
           </v-btn>
         </v-toolbar-items>
       </v-toolbar>
+
+
     </template>
     <main>
       <router-view></router-view>
@@ -55,8 +58,8 @@
       return {
         sideNav: false,
         menuItems: [
-          {icon: 'home', title: 'Home', link: '/home'},
-          {icon: 'location_on', title: 'Find My Class', link: '/classpage'},
+          {icon: 'home', title: 'My Class', link: '/classpage'},
+          {icon: 'location_on', title: 'Check in', link: '/checkin'},
           {icon: 'help', title: 'Help', link: '/help'}
         ]
       }

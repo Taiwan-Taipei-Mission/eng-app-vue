@@ -15,7 +15,7 @@ import auth from '@/auth'
 
 Vue.use(Vuetify, { theme: {
   primary: '#4CAF50',
-  secondary: '#8BC34A',
+  secondary: '#81c784',
   accent: '#82B1FF',
   error: '#FF5252',
   info: '#2196F3',
