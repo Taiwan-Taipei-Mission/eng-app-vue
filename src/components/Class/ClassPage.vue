@@ -13,7 +13,7 @@
       <v-layout row justify-center>
         <v-dialog v-model="alert" persistent max-width="290">
           <v-card>
-            <v-card-title class="headline">Welcome!</v-card-title>
+            <v-card-title class="headline">Welcome {{user.displayName}}!</v-card-title>
             <v-card-text>Looks like you haven't checked into a class before, just tap the button below to get started.</v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
@@ -31,7 +31,7 @@
     "{{searchString}}" not found. Please check your spelling and try again.
   </v-alert>
     </v-flex>
-    <v-flex xs12 class="text-xs-center"">
+    <v-flex xs12 class="text-xs-center">
   <v-btn medium route to="checkIn" color="secondary">Check in to class</v-btn>
     </v-flex>
   </v-layout>
@@ -65,7 +65,7 @@
       <v-btn block class="check-in ma-0" large route to="checkIn" color="secondary">Check in to class</v-btn>
     </v-flex>
     </v-layout>
-    <v-list two-line> <!--TODO Restrict amount of homework that that can be loaded and load by newest first-->
+    <v-list> <!--TODO Restrict amount of homework that that can be loaded and load by newest first-->
       <v-subheader>Homework</v-subheader>
       <template v-for="(homework, index) in homework">
         <v-list-tile
@@ -88,6 +88,13 @@
         <v-divider></v-divider>
       </template>
     </v-list>
+      <div v-if="alert3">
+      <v-alert  :value="true" type="warning" class="text-xs-center ma-0">
+        Please provide your phone number or Line ID, so your teacher can contact you individually.
+          <!--<v-btn @click="checkContactInfo" color="primary" dark>Open Dialog</v-btn>-->
+      </v-alert>
+      <v-btn @click="dialog2 = true" color="warning" class="ma-0" block><v-icon>create</v-icon></v-btn>
+      </div>
  </template>
 
       <v-layout row justify-center>
@@ -105,7 +112,59 @@
         </v-dialog>
       </v-layout>
     </template>
-    <!--<v-btn @click="test" color="primary" dark>Open Dialog</v-btn>  -->
+
+    <template>
+      <v-layout row justify-center>
+        <v-dialog v-model="dialog2" persistent max-width="500px">
+          <v-card>
+            <v-card-title>
+              <span class="headline">Contact Info</span>
+            </v-card-title>
+            <v-card-text>
+              <v-container grid-list-md>
+                <v-layout wrap>
+                  <v-flex xs12 sm6 md4>
+                    <v-text-field
+                      name="input-1-1"
+                      label="Phone Number*" hint=""
+                      single-line
+                      prepend-icon="phone"
+                      v-model="lineID"
+                    ></v-text-field>
+                  </v-flex>
+                  <v-flex>
+                    <v-text-field
+                      name="input-1-2"
+                      label="LINE ID*" hint=""
+                      single-line
+                      prepend-icon="local_post_office"
+                      v-model="phoneNumber"
+                    ></v-text-field>
+                  </v-flex>
+                </v-layout>
+              </v-container>
+              <small>*indicates required field</small>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="green darken-1" flat @click.native="dialog2 = false">Close</v-btn>
+              <v-btn color="green darken-1" flat @click="firestore2">Save</v-btn> <!--TODO Add validation and smarter vue-if for the dialog-->
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-layout>
+
+      <v-snackbar
+        :timeout="6000"
+        :bottom="true"
+        :multi-line="true"
+        v-model="snackbar"
+      >
+        Contact info succesfully registered
+        <v-btn flat color="pink" @click.native="snackbar = false">Close</v-btn>
+      </v-snackbar>
+
+    </template>
   </div>
 
 </template>
@@ -127,19 +186,20 @@
         loading: true,
         alert: false,
         alert2: false,
+        alert3: true,
         pageLoad: false,
         dialog: false,
+        dialog2: false,
         loading3: false,
-        searchString: ''
+        searchString: '',
+        userContactInfo: {},
+        phoneNumber: '',
+        lineID: '',
+        snackbar: false
       }
     },
     created () {
-      this.firestore2()
-    },
-    firestore () {
-      return {
-        classLocation: db.collection('Users').doc(this.user.email)
-      }
+      this.firestore()
     },
     methods: {
       test () {
@@ -151,7 +211,7 @@
         this.message = this.homework[index]
         console.log(this.message.title)
       },
-      firestore2 () {
+      firestore () {
         db.collection('Users').doc(this.user.email).get().then(doc => {
           if (doc.exists) {
             var userInfo = doc.data()
@@ -160,6 +220,8 @@
             let originalString = userInfo.location
             const splitString = originalString.split(' ') // TODO FINISH WRITING THIS CODE split location to search firebase
             console.log(splitString + 'This is the classPage')
+            this.userContactInfo = userInfo
+            this.checkContactInfo()
             db.collection('QR').doc(userInfo.location).get().then(doc => {
               if (doc.exists) {
                 var classDetails = doc.data()
@@ -185,6 +247,23 @@
             this.loading = false
           }
         })
+      },
+      firestore2 () {
+        db.collection('Users').doc(this.user.email).set({
+          phoneNumber: this.phoneNumber,
+          lineID: this.lineID
+        }, { merge: true })
+        this.alert3 = false
+        this.dialog2 = false
+        this.snackbar = true
+      },
+      checkContactInfo () {
+        if ('phoneNumber' in this.userContactInfo || 'lineID' in this.userContactInfo) {
+          this.alert3 = false
+          console.log('Phone number or Line ID IS stored')
+        } else {
+          console.log('No phone number or Line ID stored')
+        }
       }
     },
     computed: {
