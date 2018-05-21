@@ -1,7 +1,7 @@
 <template>
   <div>
     <template>
-      <v-toolbar dark flat extended extension-height="40" class="primary" height="0"> <!--TODO Set height of toolbar to 0px-->
+      <v-toolbar dark flat extended extension-height="40" class="primary" height="0">
         <v-layout row slot="extension" >
           <v-toolbar-title class="white--text">Class Check-in</v-toolbar-title>
         </v-layout>
@@ -37,14 +37,14 @@
             v-model="classLocationInput"
             v-on:keyup.enter="classLocation"
           ></v-text-field>
-          <v-btn large class="secondary" v-on:click="classLocation" route to="ClassPage" >Submit</v-btn> <!--TODO Add 'disable' class to this button-->
+          <v-btn large class="secondary" v-on:click="classLocation" >Submit</v-btn> <!--TODO Add 'disable' class to this button-->
         </v-flex>
       </v-layout>
     </v-container>
    </v-card>
 
     <v-layout row justify-center >
-      <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition"> <!--TODO Trying to get QR code to have a closable box and display loading indicator until camera renders-->
+      <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
         <!--TODO Resolve issue where the QR code does not rescan a code that has been scanned once-->
         <v-toolbar dark color="primary">
           <v-btn icon dark @click.native="dialog = false" @click="stopQR">
@@ -61,12 +61,20 @@
       </v-dialog>
     </v-layout>
 
+    <template v-if="alert2">
+      <v-layout row justify-center wrap>
+        <v-flex xs12>
+          <v-alert v-model="alert2" type="error">
+            "{{userInput}}" not found. Please check your spelling and try again.
+          </v-alert>
+        </v-flex>
+      </v-layout>
+    </template>
+
   </div>
 </template>
 
 <script>
-  import firebase from 'firebase'
-  import auth from '@/auth'
   import { db } from '../../main'
 
   export default {
@@ -74,34 +82,40 @@
       return {
         classLocationInput: '',
         alert: '',
+        alert2: false,
         today: '',
         dialog: false,
         paused: false,
         content: '',
         activateQR: false,
-        loading: true
+        loading: true,
+        userInput: ''
       }
     },
     methods: {
-      logout: function () {
-        firebase.auth().signOut().then(() => {
-          this.$router.replace('signin')
-        })
-      },
       classLocation () {
         this.$store.dispatch('classLocation', this.classLocationInput.toLowerCase())
-        let originalString = this.classLocationInput.toLowerCase()// TODO FINISH WRITING THIS CODE split location to search firebase
+        let trimString = this.classLocationInput.trim() // TODO FINISH WRITING THIS CODE split location to search firebase
+        let originalString = trimString.toLowerCase()
         const splitString = originalString.split(' ')
         console.log(splitString)
         db.collection('Users').doc(this.user.email).set({location: splitString[0] + ' ' + splitString[1], studentName: this.user.displayName, photo: this.user.photoURL + '?width=9999', uid: this.user.uid})
         this.date()
-        db.collection('QR').doc(originalString).collection('classRole').doc('students').collection(this.today).doc(this.user.email).set({
-          studentID: this.user.email
-        }, { merge: true })
-        /* this.$router.replace('classpage') */
-      },
-      logOut () {
-        auth.logout()
+        db.collection('QR').doc(splitString[0] + ' ' + splitString[1]).get().then(doc => {
+          if (doc.exists) {
+            db.collection('QR').doc(originalString).collection('classRole').doc('students').collection(this.today).doc(this.user.email).set({ /* TODO Figure out the original string/split string and found out a way to validate/sanitize information */
+              studentID: this.user.email
+            }, {merge: true})
+            console.log('success')
+            this.alert2 = false
+            this.$router.replace('classpage')
+          } else {
+            console.log('you stupid')
+            this.userInput = this.classLocationInput
+            this.alert2 = true
+            this.dialog = false
+          }
+        })
       },
       date () {
         var today = new Date()
@@ -123,11 +137,10 @@
       },
       onDecode (content) {
         if (confirm(content)) {
-          this.$store.dispatch('classLocation', content.toLowerCase())
-          db.collection('Users').doc(this.user.email).set({location: content.toLowerCase(), studentName: this.user.displayName, photo: this.user.photoURL + '?width=9999', uid: this.user.uid})
-          this.$router.push('classpage')
+          let sanitized = content.replace('/', ' ')/* TODO find the correct way to catch an error if the user scans a QR code containing a non alpha numeric string */
+          this.classLocationInput = sanitized
+          this.classLocation()
         } else {
-          this.content = ''
         }
       },
       runQR () {

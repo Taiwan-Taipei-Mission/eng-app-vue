@@ -41,7 +41,7 @@
 
 <template v-if="pageLoad !== false">
     <template>
-  <v-toolbar dark flat extended extension-height="140" class="primary" height="0"> <!--TODO Set height of toolbar to 0px-->
+  <v-toolbar dark flat extended extension-height="140" class="primary" height="0">
     <v-layout row slot="extension" >
       <v-flex xs5 class="classinfo px-4">
         <v-avatar

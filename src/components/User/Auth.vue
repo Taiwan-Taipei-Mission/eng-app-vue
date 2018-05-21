@@ -1,8 +1,12 @@
 <template>
-  <div class="sign-in">
-    <h1>Sign in</h1>
-    <div id="firebaseui-auth-container"></div>
-  </div>
+    <v-layout row justify-center>
+      <div class="sign-in">
+        <v-flex xs12 lrg>
+      <img class="mt-5" src="../../assets/App Sign In Free English Class.png"/> <!--TODO Center image on desktop-->
+        </v-flex>
+      <div id="firebaseui-auth-container"></div> <!--TODO Change the CSS of firebase auth when a user tries to sign in through email, ie button colors, white line etc-->
+      </div>
+    </v-layout>
 </template>
 
 <script>
@@ -28,6 +32,11 @@
     position: absolute;
     min-width: 100%;
     min-height: 100%;
+  }
+  img {
+    max-width: 100%;
+    height: auto;
+    width: auto\9; /* ie8 */
   }
   </style>
 </style>
