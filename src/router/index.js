@@ -19,7 +19,7 @@ var routes = [
   { path: '/checkin', name: 'checkin', component: CheckIn, meta: { requireAuth: true } },
   { path: '/QR', name: 'QR', component: QR, meta: { requireAuth: true } },
   { path: '/classpage', name: 'ClassPage', component: ClassPage, meta: { requireAuth: true } },
-  { path: '/help', name: 'Help', component: Help, meta: { requireAuth: false } },
+  { path: '/help', name: 'Help', component: Help, meta: { requireAuth: true } },
   { path: '*', redirect: '/classpage' }
 ]
 

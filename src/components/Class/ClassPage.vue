@@ -104,7 +104,7 @@
             <v-card-text>{{message.description}}</v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn flat @click.native="dialog = false">Cancel</v-btn>
+              <v-btn flat @click.native="dialog = false">Close</v-btn>
               <v-btn color="green darken-1" flat :loading="loading3" :disabled="loading3" @click.native="loading3 = true" :href="this.message.homeworkURL"
               >Open</v-btn>
             </v-card-actions>
@@ -164,6 +164,16 @@
         <v-btn flat color="pink" @click.native="snackbar = false">Close</v-btn>
       </v-snackbar>
 
+      <v-snackbar
+        :timeout="6000"
+        :bottom="true"
+        :multi-line="true"
+        v-model="succesfulCheckin"
+      >
+        Class Checkin Succesful
+        <v-btn flat color="pink" @click.native="snackbar2 = false">Close</v-btn>
+      </v-snackbar>
+
     </template>
   </div>
 
@@ -195,7 +205,8 @@
         userContactInfo: {},
         phoneNumber: '',
         lineID: '',
-        snackbar: false
+        snackbar: false,
+        snackbar2: false
       }
     },
     created () {
@@ -217,9 +228,6 @@
             var userInfo = doc.data()
             console.log(userInfo.location)
             this.searchString = userInfo.location
-            let originalString = userInfo.location
-            const splitString = originalString.split(' ') // TODO FINISH WRITING THIS CODE split location to search firebase
-            console.log(splitString + 'This is the classPage')
             this.userContactInfo = userInfo
             this.checkContactInfo()
             db.collection('QR').doc(userInfo.location).get().then(doc => {
@@ -269,6 +277,9 @@
     computed: {
       user () {
         return this.$store.getters['user/user']
+      },
+      succesfulCheckin () {
+        return this.$store.state.snackbar2
       }
     }
   }

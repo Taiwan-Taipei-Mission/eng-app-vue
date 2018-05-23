@@ -97,17 +97,17 @@
         this.$store.dispatch('classLocation', this.classLocationInput.toLowerCase())
         let trimString = this.classLocationInput.trim() // TODO FINISH WRITING THIS CODE split location to search firebase
         let originalString = trimString.toLowerCase()
-        const splitString = originalString.split(' ')
-        console.log(splitString)
-        db.collection('Users').doc(this.user.email).set({location: splitString[0] + ' ' + splitString[1], studentName: this.user.displayName, photo: this.user.photoURL + '?width=9999', uid: this.user.uid})
+
+        db.collection('Users').doc(this.user.email).set({location: originalString, studentName: this.user.displayName, photo: this.user.photoURL + '?width=9999', uid: this.user.uid})
         this.date()
-        db.collection('QR').doc(splitString[0] + ' ' + splitString[1]).get().then(doc => {
+        db.collection('QR').doc(originalString).get().then(doc => {
           if (doc.exists) {
             db.collection('QR').doc(originalString).collection('classRole').doc('students').collection(this.today).doc(this.user.email).set({ /* TODO Figure out the original string/split string and found out a way to validate/sanitize information */
               studentID: this.user.email
             }, {merge: true})
             console.log('success')
             this.alert2 = false
+            this.$store.commit('succesfulCheckin')
             this.$router.replace('classpage')
           } else {
             console.log('you stupid')
@@ -137,8 +137,8 @@
       },
       onDecode (content) {
         if (confirm(content)) {
-          let sanitized = content.replace('/', ' ')/* TODO find the correct way to catch an error if the user scans a QR code containing a non alpha numeric string */
-          this.classLocationInput = sanitized
+          let sanitizedInput = content.replace('/', ' ')/* TODO find the correct way to catch an error if the user scans a QR code containing a non alpha numeric string */
+          this.classLocationInput = sanitizedInput
           this.classLocation()
         } else {
         }
