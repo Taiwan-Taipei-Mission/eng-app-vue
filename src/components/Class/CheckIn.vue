@@ -8,10 +8,10 @@
       </v-toolbar>
     </template>
 
-   <v-card>
+    <div class="background">
     <v-container fill-height>
       <v-layout row wrap>
-        <v-flex class="text-xs-center">
+        <v-flex class="text-xs-center mt-2">
            <!--<h1>Welcome!</h1>
             <img :src="user.photoURL" width="100"> <br>
             <h3>{{user.displayName}}</h3>
@@ -23,9 +23,7 @@
         </v-flex>
       </v-layout>
     </v-container>
-   </v-card>
 
-       <v-card>
          <v-container fill-height>
            <v-layout row wrap>
              <v-flex class="text-xs-center">
@@ -41,7 +39,12 @@
         </v-flex>
       </v-layout>
     </v-container>
-   </v-card>
+      <v-flex xs12 v-if="alert2">
+        <v-alert v-model="alert2" type="error">
+          "{{userInput}}" not found. Please check your spelling and try again.
+        </v-alert>
+      </v-flex>
+    </div>
 
     <v-layout row justify-center >
       <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
@@ -61,15 +64,8 @@
       </v-dialog>
     </v-layout>
 
-    <template v-if="alert2">
-      <v-layout row justify-center wrap>
-        <v-flex xs12>
-          <v-alert v-model="alert2" type="error">
-            "{{userInput}}" not found. Please check your spelling and try again.
-          </v-alert>
-        </v-flex>
-      </v-layout>
-    </template>
+
+
 
   </div>
 </template>
@@ -203,6 +199,12 @@
   }
   .scanDialog {
     background-color: #FFF;
+    min-width: 100%;
+    min-height: 100%;
+  }
+  .background {
+    background-color: #ffffff;
+    position: absolute;
     min-width: 100%;
     min-height: 100%;
   }

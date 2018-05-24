@@ -43,7 +43,7 @@
     <template>
   <v-toolbar dark flat extended extension-height="140" class="primary" height="0">
     <v-layout row slot="extension" >
-      <v-flex xs5 class="classinfo px-4">
+      <v-flex xs5 class="classinfo px-4 text-xs-center text-lg-center ">
         <v-avatar
           size="100"
           color="grey lighten-4"
