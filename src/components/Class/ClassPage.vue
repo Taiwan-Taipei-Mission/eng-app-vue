@@ -147,7 +147,7 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="green darken-1" flat @click.native="dialog2 = false">Close</v-btn>
+              <v-btn color="green darken-1" flat @click.native="dialog2 = false">Cancel</v-btn>
               <v-btn color="green darken-1" flat @click="firestore2">Save</v-btn> <!--TODO Add validation and smarter vue-if for the dialog-->
             </v-card-actions>
           </v-card>
@@ -234,8 +234,8 @@
               if (doc.exists) {
                 var classDetails = doc.data()
                 this.QR = classDetails
-                db.collection('QR').doc(userInfo.location).collection('homework').get().then((snap) => { /* Must be converted to objects */
-                  const items = snap.docs.reduce((res, item) => (
+                db.collection('QR').doc(userInfo.location).collection('homework').orderBy('homework_timestamp', 'desc').limit(5).get().then((snap) => { // The homework is orderedBy newest to oldest and only shows the latest 5 assignemnts *.limit()*
+                  const items = snap.docs.reduce((res, item) => (/* Homework info returned from Firestore must be modified using this function  */
                     {...res, [item.id]: item.data()}),
                   {})
                   this.homework = items

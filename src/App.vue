@@ -40,6 +40,9 @@
             <v-icon left dark>{{ item.icon }}</v-icon>
             {{ item.title }}
           </v-btn>
+          <v-btn flat @click="logOut">
+            <v-icon left dark>exit_to_app</v-icon>
+          Logout</v-btn>
         </v-toolbar-items>
       </v-toolbar>
 

@@ -98,7 +98,7 @@
         this.date()
         db.collection('QR').doc(originalString).get().then(doc => {
           if (doc.exists) {
-            db.collection('QR').doc(originalString).collection('classRole').doc('students').collection(this.today).doc(this.user.email).set({ /* TODO Figure out the original string/split string and found out a way to validate/sanitize information */
+            db.collection('QR').doc(originalString).collection('classRole').doc(this.today).collection('students').doc(this.user.email).set({ /* TODO Figure out the original string/split string and found out a way to validate/sanitize information */
               studentID: this.user.email
             }, {merge: true})
             console.log('success')
