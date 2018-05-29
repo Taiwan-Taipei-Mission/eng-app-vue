@@ -20,6 +20,7 @@
     "instascan": "^1.0.0",
     "jsqr": "^1.0.4",
     "mixins": "0.0.1",
+    "vee-validate": "^2.0.9",
     "vue": "^2.5.2",
     "vue-qrcode-reader": "^0.7.2",
     "vue-router": "^3.0.1",

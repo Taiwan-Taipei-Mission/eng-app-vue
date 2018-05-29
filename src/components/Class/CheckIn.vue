@@ -32,10 +32,12 @@
             name="input-3"
             label="Enter Class Code"
             value=""
+            :error="alert2"
             v-model="classLocationInput"
             v-on:keyup.enter="classLocation"
+            id="classField"
           ></v-text-field>
-          <v-btn large class="secondary" v-on:click="classLocation" >Submit</v-btn> <!--TODO Add 'disable' class to this button-->
+          <v-btn large class="secondary" :disabled="!classLocationInput.length >= 1" v-on:click="classLocation" >Submit</v-btn> <!--TODO Add 'disable' class to this button-->
         </v-flex>
       </v-layout>
     </v-container>
@@ -72,6 +74,7 @@
 
 <script>
   import { db } from '../../main'
+  import firebase from 'firebase/app'
 
   export default {
     data () {
@@ -91,25 +94,29 @@
     methods: {
       classLocation () {
         this.$store.dispatch('classLocation', this.classLocationInput.toLowerCase())
-        let trimString = this.classLocationInput.trim() // TODO FINISH WRITING THIS CODE split location to search firebase
+        let trimString = this.classLocationInput.trim()
         let originalString = trimString.toLowerCase()
-
-        db.collection('Users').doc(this.user.email).set({location: originalString, studentName: this.user.displayName, photo: this.user.photoURL + '?width=9999', uid: this.user.uid})
         this.date()
         db.collection('QR').doc(originalString).get().then(doc => {
           if (doc.exists) {
-            db.collection('QR').doc(originalString).collection('classRole').doc(this.today).collection('students').doc(this.user.email).set({ /* TODO Figure out the original string/split string and found out a way to validate/sanitize information */
+            db.collection('QR').doc(originalString).collection('classRole').doc(this.today).set({
+              date: this.today
+            }, {merge: true})
+            db.collection('QR').doc(originalString).collection('classRole').doc(this.today).collection('students').doc(this.user.email).set({
               studentID: this.user.email
             }, {merge: true})
+            db.collection('Users').doc(this.user.email).set({lastSearchAttempt: originalString, location: originalString, studentName: this.user.displayName, photo: this.user.photoURL + '?width=9999', uid: this.user.uid}, {merge: true})
             console.log('success')
             this.alert2 = false
-            this.$store.commit('succesfulCheckin')
+            this.$store.commit('succesfulCheckin') // Activates the succesful checkin toast on the ClassPage
             this.$router.replace('classpage')
           } else {
             console.log('you stupid')
             this.userInput = this.classLocationInput
             this.alert2 = true
             this.dialog = false
+            document.getElementById('classField').blur() // Blurs the element so that the keyboard will dissapear and allow the user to see the alert
+            db.collection('App Logs').doc(this.user.email).set({failedSearchAttempt: originalString, lastSearchedAt: firebase.firestore.FieldValue.serverTimestamp()}, {merge: true}) // Logs the failed search attempt
           }
         })
       },
@@ -132,11 +139,16 @@
         console.log(today)
       },
       onDecode (content) {
-        if (confirm(content)) {
-          let sanitizedInput = content.replace('/', ' ')/* TODO find the correct way to catch an error if the user scans a QR code containing a non alpha numeric string */
-          this.classLocationInput = sanitizedInput
-          this.classLocation()
+        if (content !== '') {
+          if (confirm('Checking you in for "' + content + '"')) {
+            let sanitizedInput = content.replace('/', ' ')
+            /* TODO find the correct way to catch an error if the user scans a QR code containing a non alpha numeric string */
+            this.classLocationInput = sanitizedInput
+            this.classLocation()
+          } else {
+          }
         } else {
+          console.log('QR Reader returned blank string')
         }
       },
       runQR () {

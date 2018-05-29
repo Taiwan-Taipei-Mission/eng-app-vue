@@ -25,7 +25,7 @@
   h1 {
     text-align: center;
     margin-top: 125px;
-    color: #FFFFFF;
+    color: #4CAF50;
   }
   .sign-in {
     background-color: #4CAF50;

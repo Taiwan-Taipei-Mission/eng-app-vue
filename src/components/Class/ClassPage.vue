@@ -123,24 +123,28 @@
             <v-card-text>
               <v-container grid-list-md>
                 <v-layout wrap>
+                  <v-form v-model="valid" ref="form">
                   <v-flex xs12 sm6 md4>
                     <v-text-field
                       name="input-1-1"
-                      label="Phone Number*" hint=""
+                      :rules="nameRules"
+                      label="Phone Number" hint=""
                       single-line
                       prepend-icon="phone"
-                      v-model="lineID"
+                      v-model="phoneNumber"
+                      required
                     ></v-text-field>
                   </v-flex>
                   <v-flex>
                     <v-text-field
-                      name="input-1-2"
-                      label="LINE ID*" hint=""
+                      name="email"
+                      label="LINE ID" hint=""
                       single-line
                       prepend-icon="local_post_office"
-                      v-model="phoneNumber"
+                      v-model="lineID"
                     ></v-text-field>
                   </v-flex>
+                  </v-form>
                 </v-layout>
               </v-container>
               <small>*indicates required field</small>
@@ -148,7 +152,7 @@
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="green darken-1" flat @click.native="dialog2 = false">Cancel</v-btn>
-              <v-btn color="green darken-1" flat @click="firestore2">Save</v-btn> <!--TODO Add validation and smarter vue-if for the dialog-->
+              <v-btn color="green darken-1" flat @click="firestore2">Submit</v-btn> <!--TODO Add validation and smarter vue-if for the dialog-->
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -206,7 +210,13 @@
         phoneNumber: '',
         lineID: '',
         snackbar: false,
-        snackbar2: false
+        snackbar2: false,
+        email: '',
+        nameRules: [
+          v => !!v || 'Phone number is required',
+          v => v.length >= 10 || 'Phone number is required'
+        ],
+        valid: false
       }
     },
     created () {
@@ -233,8 +243,8 @@
             db.collection('QR').doc(userInfo.location).get().then(doc => {
               if (doc.exists) {
                 var classDetails = doc.data()
-                this.QR = classDetails
-                db.collection('QR').doc(userInfo.location).collection('homework').orderBy('homework_timestamp', 'desc').limit(5).get().then((snap) => { // The homework is orderedBy newest to oldest and only shows the latest 5 assignemnts *.limit()*
+                this.QR = classDetails /* .orderBy('homework_timestamp', 'desc').limit(5) for line below */
+                db.collection('QR').doc(userInfo.location).collection('homework').get().then((snap) => { // The homework is orderedBy newest to oldest and only shows the latest 5 assignemnts *.limit()*
                   const items = snap.docs.reduce((res, item) => (/* Homework info returned from Firestore must be modified using this function  */
                     {...res, [item.id]: item.data()}),
                   {})
@@ -257,13 +267,18 @@
         })
       },
       firestore2 () {
-        db.collection('Users').doc(this.user.email).set({
-          phoneNumber: this.phoneNumber,
-          lineID: this.lineID
-        }, { merge: true })
-        this.alert3 = false
-        this.dialog2 = false
-        this.snackbar = true
+        this.$refs.form.validate()
+        if (this.valid) {
+          db.collection('Users').doc(this.user.email).set({
+            phoneNumber: this.phoneNumber,
+            lineID: this.lineID
+          }, {merge: true})
+          this.alert3 = false
+          this.dialog2 = false
+          this.snackbar = true
+        } else {
+          console.log('Not validated')
+        }
       },
       checkContactInfo () {
         if ('phoneNumber' in this.userContactInfo || 'lineID' in this.userContactInfo) {
