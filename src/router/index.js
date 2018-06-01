@@ -8,6 +8,7 @@ import QR from '@/components/Class/QR'
 import ClassPage from '@/components/Class/ClassPage'
 import Auth from '@/components/User/Auth'
 import Help from '@/components/User/Help'
+import aboutMissionaries from '@/components/Class/aboutMissionaries'
 
 import Demo from '@/components/Class/Demo'
 
@@ -20,6 +21,7 @@ var routes = [
   { path: '/QR', name: 'QR', component: QR, meta: { requireAuth: true } },
   { path: '/classpage', name: 'ClassPage', component: ClassPage, meta: { requireAuth: true } },
   { path: '/help', name: 'Help', component: Help, meta: { requireAuth: true } },
+  { path: '/about-missionaries', name: 'aboutMissionaries', component: aboutMissionaries, meta: { requireAuth: true } },
   { path: '*', redirect: '/classpage' }
 ]
 

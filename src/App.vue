@@ -63,7 +63,8 @@
         menuItems: [
           {icon: 'home', title: 'My Class', link: '/classpage'},
           {icon: 'location_on', title: 'Check in', link: '/checkin'},
-          {icon: 'help', title: 'Help', link: '/help'}
+          {icon: 'face', title: 'About Missionaries', link: '/about-missionaries'}
+          /* {icon: 'help', title: 'Help', link: '/help'} */
         ]
       }
     },
