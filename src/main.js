@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import {router} from '@/router'
+import auth from '@/auth'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import VueQrcodeReader from 'vue-qrcode-reader'
@@ -11,8 +12,14 @@ import firebase from 'firebase/app'
 import 'firebase/firestore'
 import Vuex from 'vuex'
 import {store} from './store/store.js'
-import auth from '@/auth'
 import VueAnalytics from 'vue-analytics'
+import Raven from 'raven-js'
+import RavenVue from 'raven-js/plugins/vue'
+
+Raven
+  .config('https://5abe71266a774037b0f3ff0c448cf0f1@sentry.io/1221611')
+  .addPlugin(RavenVue, Vue)
+  .install()
 
 Vue.use(Vuetify, { theme: {
   primary: '#4CAF50',

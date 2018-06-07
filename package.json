@@ -20,6 +20,7 @@
     "instascan": "^1.0.0",
     "jsqr": "^1.0.4",
     "mixins": "0.0.1",
+    "raven-js": "^3.26.1",
     "vee-validate": "^2.0.9",
     "vue": "^2.5.2",
     "vue-analytics": "^5.12.2",
