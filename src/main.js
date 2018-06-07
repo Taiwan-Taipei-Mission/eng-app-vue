@@ -12,6 +12,7 @@ import 'firebase/firestore'
 import Vuex from 'vuex'
 import {store} from './store/store.js'
 import auth from '@/auth'
+import VueAnalytics from 'vue-analytics'
 
 Vue.use(Vuetify, { theme: {
   primary: '#4CAF50',
@@ -27,6 +28,13 @@ Vue.use(VueQrcodeReader)
 Vue.use(Vuex)
 Vue.config.productionTip = false
 Vue.use(VueFire)
+Vue.use(VueAnalytics, {
+  id: 'UA-111818409-2',
+  router,
+  autoTracking: {
+    exception: true
+  }
+})
 
 /* eslint-disable no-new */
 new Vue({
