@@ -18,7 +18,6 @@ auth.js
 /src/auth.js
 OneSignalSDKUpdaterWorker.js
 OneSignalSDKWorker.js
-src/assets/hello.jpg
 src/components/Class/Demo.vue
 src/components/Class/file-2.vue
 src/components/Class/file.vue
