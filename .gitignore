@@ -24,3 +24,4 @@ src/components/Class/file-2.vue
 src/components/Class/file.vue
 !/OneSignalSDKUpdaterWorker.js
 !/OneSignalSDKWorker.js
+/src/components/User/Signin.vue
