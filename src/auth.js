@@ -5,9 +5,7 @@ const config = {
   apiKey: 'AIzaSyCPg6kfcYxuPHwyMW9SsmVqyPO4AUcWQVM',
   authDomain: 'taiwaneng-alpha.firebaseapp.com',
   databaseURL: 'https://taiwaneng-alpha.firebaseio.com',
-  projectId: 'taiwaneng-alpha',
-  storageBucket: 'taiwaneng-alpha.appspot.com',
-  messagingSenderId: '920652444483'
+  projectId: 'taiwaneng-alpha'
 }
 
 const auth = {

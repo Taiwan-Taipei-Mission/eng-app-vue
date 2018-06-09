@@ -62,7 +62,7 @@
   </v-toolbar>
     <v-layout row>
     <v-flex xs12 class="text-xs-center ">
-      <v-btn block class="check-in ma-0" large route to="checkIn" color="secondary">Check in to class</v-btn>
+      <v-btn block class="check-in ma-0" large route to="checkIn" color="secondary">Check Into Class</v-btn>
     </v-flex>
     </v-layout>
     <v-list> <!--TODO Restrict amount of homework that that can be loaded and load by newest first-->

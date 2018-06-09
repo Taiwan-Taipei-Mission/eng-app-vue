@@ -36,6 +36,7 @@
             v-model="classLocationInput"
             v-on:keyup.enter="classLocation"
             id="classField"
+            data-hj-whitelist
           ></v-text-field>
           <v-btn large class="secondary" :disabled="!classLocationInput.length >= 1" v-on:click="classLocation" >Submit</v-btn> <!--TODO Add 'disable' class to this button-->
         </v-flex>

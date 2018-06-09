@@ -10,12 +10,9 @@ import Auth from '@/components/User/Auth'
 import Help from '@/components/User/Help'
 import aboutMissionaries from '@/components/Class/aboutMissionaries'
 
-import Demo from '@/components/Class/Demo'
-
 Vue.use(Router)
 
 var routes = [
-  { path: '/demo', name: 'demo', component: Demo, meta: { requireAuth: false } },
   { path: '/auth', name: 'auth', component: Auth, meta: { guestOnly: true } },
   { path: '/checkin', name: 'checkin', component: CheckIn, meta: { requireAuth: true } },
   { path: '/QR', name: 'QR', component: QR, meta: { requireAuth: true } },
