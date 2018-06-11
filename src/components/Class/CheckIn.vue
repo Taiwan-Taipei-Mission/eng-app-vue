@@ -100,9 +100,11 @@
         this.date()
         db.collection('QR').doc(originalString).get().then(doc => {
           if (doc.exists) {
+            console.log('set date for classRole')
             db.collection('QR').doc(originalString).collection('classRole').doc(this.today).set({
               date: this.today
             }, {merge: true})
+            console.log('trying to make doc for student details')
             db.collection('QR').doc(originalString).collection('classRole').doc(this.today).collection('students').doc(this.user.email).set({
               studentID: this.user.email
             }, {merge: true})
@@ -112,12 +114,12 @@
             this.$store.commit('succesfulCheckin') // Activates the succesful checkin toast on the ClassPage
             this.$router.replace('classpage')
           } else {
-            console.log('you stupid')
+            console.log('class location not located')
             this.userInput = this.classLocationInput
             this.alert2 = true
             this.dialog = false
             document.getElementById('classField').blur() // Blurs the element so that the keyboard will dissapear and allow the user to see the alert
-            db.collection('App Logs').doc(this.user.email).set({failedSearchAttempt: originalString, lastSearchedAt: firebase.firestore.FieldValue.serverTimestamp()}, {merge: true}) // Logs the failed search attempt
+            db.collection('AppLogs').doc(this.user.email).set({failedSearchAttempt: originalString, lastSearchedAt: firebase.firestore.FieldValue.serverTimestamp()}, {merge: true}) // Logs the failed search attempt
           }
         })
       },

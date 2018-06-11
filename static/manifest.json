@@ -1,5 +1,5 @@
 {
-  "name": "Free English Class",
+  "name": "Taiwan Free English Class",
   "short_name": "Taiwan Eng",
   "icons": [
     {
@@ -12,7 +12,7 @@
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#FFFFFF",
-  "theme_color": "#4DBA87",
+  "theme_color": "#4CAF50",
   "gcm_sender_id_comment": "For OneSignal Web Push Notifications, Do Not Change ID",
   "gcm_sender_id": "482941778795"
 }

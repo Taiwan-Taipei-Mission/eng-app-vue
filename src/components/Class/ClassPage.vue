@@ -124,7 +124,7 @@
               <v-container grid-list-md>
                 <v-layout wrap>
                   <v-form v-model="valid" ref="form">
-                  <v-flex xs12 sm6 md4>
+                  <v-flex>
                     <v-text-field
                       name="input-1-1"
                       :rules="nameRules"
