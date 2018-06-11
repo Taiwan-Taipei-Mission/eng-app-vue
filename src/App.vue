@@ -5,7 +5,7 @@
         <v-list class="pa-0">
           <v-list-tile avatar>
             <v-list-tile-avatar>
-              <img :src="user.photoURL" v-if="user.photoURL != null"> <!--TODO THIS MAY BREAK IF A USER DOES NOT HAVE THIS INFO-->
+              <img :src="user.photoURL" v-if="user.photoURL != null"> <!--TODO THIS MAY BREAK IF A USER DOES NOT HAVE THIS INFO--> <!--TODO CHANGE DEFAULT PIC -->
             </v-list-tile-avatar>
             <v-list-tile-content>
               <v-list-tile-title v-if="user.displayName != null">{{user.displayName}}</v-list-tile-title>  <!--TODO THIS MAY BREAK IF A USER DOES NOT HAVE THIS INFO-->

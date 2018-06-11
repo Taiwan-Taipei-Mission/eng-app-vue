@@ -2,7 +2,7 @@
     <v-layout row justify-center>
       <div class="sign-in">
         <v-flex xs12 lg12 class="text-lg-center text-xs-center">
-      <img class="mt-5" src="../../assets/App Sign In Free English Class.png"/> <!--TODO Center image on desktop-->
+      <img class="mt-5" src="../../assets/App Sign In Free English Class.png"/>
         </v-flex>
       <div id="firebaseui-auth-container"></div> <!--TODO Change the CSS of firebase auth when a user tries to sign in through email, ie button colors, white line etc-->
       </div>

@@ -38,7 +38,7 @@
             id="classField"
             data-hj-whitelist
           ></v-text-field>
-          <v-btn large class="secondary" :disabled="!classLocationInput.length >= 1" v-on:click="classLocation" >Submit</v-btn> <!--TODO Add 'disable' class to this button-->
+          <v-btn large class="secondary" :disabled="!classLocationInput.length >= 1" v-on:click="classLocation" >Submit</v-btn>
         </v-flex>
       </v-layout>
     </v-container>
@@ -51,7 +51,7 @@
 
     <v-layout row justify-center >
       <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
-        <!--TODO Resolve issue where the QR code does not rescan a code that has been scanned once-->
+        <!--TODO Resolve issue where the QR code does not rescan a code that has been scanned once--> //Bug is caused by Vue QR Reader, not my code
         <v-toolbar dark color="primary">
           <v-btn icon dark @click.native="dialog = false" @click="stopQR">
             <v-icon>close</v-icon>
@@ -62,6 +62,7 @@
           </v-toolbar-items></v-toolbar>
         <div class="scanDialog">
           <h1 v-show="loading">Loading...</h1>
+          <v-alert type="error" v-show="QRerror">{{QRerror}}</v-alert>
           <qrcode-reader v-if="activateQR" @init="onInit" @decode="onDecode"></qrcode-reader>
         </div>
       </v-dialog>
@@ -89,7 +90,8 @@
         content: '',
         activateQR: false,
         loading: true,
-        userInput: ''
+        userInput: '',
+        QRerror: ''
       }
     },
     methods: {
@@ -169,19 +171,25 @@
           await promise
 
           // successfully initialized
-        } catch (error) { /* TODO Add in results for each expected error type */
+        } catch (error) {
           if (error.name === 'NotAllowedError') {
             // user denied camera access permisson
+            this.QRerror = 'Camera Access Denied'
           } else if (error.name === 'NotFoundError') {
             // no suitable camera device installed
+            this.QRerror = 'Camera Not Found'
           } else if (error.name === 'NotSupportedError') {
             // page is not served over HTTPS (or localhost)
+            this.QRerror = 'QR Not Supported'
           } else if (error.name === 'NotReadableError') {
             // maybe camera is already in use
+            this.QRerror = 'Camera Currently Being Used By Other Application'
           } else if (error.name === 'OverconstrainedError') {
             // passed constraints don't match any camera. Did you requested the front camera although there is none?
+            this.QRerror = 'Camera Not Found '
           } else {
             // browser is probably lacking features (WebRTC, Canvas)
+            this.QRerror = 'QR Scanner Not Supported By Your Browser'
           }
         } finally {
           this.loading = false

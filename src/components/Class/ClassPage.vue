@@ -152,7 +152,7 @@
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="green darken-1" flat @click.native="dialog2 = false">Cancel</v-btn>
-              <v-btn color="green darken-1" flat @click="firestore2">Submit</v-btn> <!--TODO Add validation and smarter vue-if for the dialog-->
+              <v-btn color="green darken-1" flat @click="firestore2">Submit</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -253,7 +253,7 @@
                   this.loading = false
                 })
               } else {
-                console.log('error 2') /* todo add error message dialog for user */
+                console.log('error 2')
                 this.loading = false
                 this.alert2 = true
               }
