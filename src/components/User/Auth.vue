@@ -39,4 +39,4 @@
     width: auto\9; /* ie8 */
   }
   </style>
-</style>
+

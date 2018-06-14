@@ -12,11 +12,6 @@
     <v-container fill-height>
       <v-layout row wrap>
         <v-flex class="text-xs-center mt-2">
-           <!--<h1>Welcome!</h1>
-            <img :src="user.photoURL" width="100"> <br>
-            <h3>{{user.displayName}}</h3>
-                    <p>{{user.email}}</p>
-                 <v-btn @click="logOut">Log out</v-btn>-->
           <v-btn large @click="runQR"  class="secondary"> <!--route to ="/QR"-->
             Scan QR Code
             <v-icon right  >photo_camera</v-icon></v-btn>
@@ -51,7 +46,7 @@
 
     <v-layout row justify-center >
       <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
-        <!--TODO Resolve issue where the QR code does not rescan a code that has been scanned once--> //Bug is caused by Vue QR Reader, not my code
+        <!--TODO Resolve issue where the QR code does not rescan a code that has been scanned once--> <!--Bug is caused by Vue QR Reader, not my code-->
         <v-toolbar dark color="primary">
           <v-btn icon dark @click.native="dialog = false" @click="stopQR">
             <v-icon>close</v-icon>
@@ -113,14 +108,14 @@
             db.collection('Users').doc(this.user.email).set({lastSearchAttempt: originalString, location: originalString, studentName: this.user.displayName, photo: this.user.photoURL + '?width=9999', uid: this.user.uid}, {merge: true})
             console.log('success')
             this.alert2 = false
-            this.$store.commit('succesfulCheckin') // Activates the succesful checkin toast on the ClassPage
+            this.$store.commit('successfulCheckin') // Activates the successful checkin toast on the ClassPage
             this.$router.replace('classpage')
           } else {
             console.log('class location not located')
             this.userInput = this.classLocationInput
             this.alert2 = true
             this.dialog = false
-            document.getElementById('classField').blur() // Blurs the element so that the keyboard will dissapear and allow the user to see the alert
+            document.getElementById('classField').blur() // Blurs the element so that the keyboard will disappear and allow the user to see the alert
             db.collection('AppLogs').doc(this.user.email).set({failedSearchAttempt: originalString, lastSearchedAt: firebase.firestore.FieldValue.serverTimestamp()}, {merge: true}) // Logs the failed search attempt
           }
         })

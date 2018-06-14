@@ -66,7 +66,8 @@
     </v-flex>
     </v-layout>
     <v-list> <!--TODO Restrict amount of homework that that can be loaded and load by newest first-->
-      <v-subheader>Homework</v-subheader>
+      <v-subheader >Homework</v-subheader>
+      <v-divider></v-divider>
       <template v-for="(homework, index) in homework">
         <v-list-tile
           :key="homework.homeworkDate"
@@ -89,7 +90,7 @@
       </template>
     </v-list>
       <div v-if="alert3">
-      <v-alert  :value="true" type="warning" class="text-xs-center ma-0">
+      <v-alert  @click="dialog2 = true" :value="true" type="warning" class="text-xs-center ma-0">
         Please provide your phone number or Line ID, so your teacher can contact you individually.
           <!--<v-btn @click="checkContactInfo" color="primary" dark>Open Dialog</v-btn>-->
       </v-alert>
@@ -104,7 +105,7 @@
             <v-card-text>{{message.description}}</v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn flat @click.native="dialog = false">Close</v-btn>
+              <v-btn flat @click.native="dialog = false">Cancel</v-btn>
               <v-btn color="green darken-1" flat :loading="loading3" :disabled="loading3" @click.native="loading3 = true" :href="this.message.homeworkURL"
               >Open</v-btn>
             </v-card-actions>
@@ -195,7 +196,6 @@
         QR: [],
         homework: [],
         classLocation: [],
-        test1: [],
         message: [],
         loading: true,
         alert: false,
@@ -223,9 +223,6 @@
       this.firestore()
     },
     methods: {
-      test () {
-        console.log(this.message)
-      },
       indicate (index) {
         console.log(index)
         this.dialog = true
@@ -243,7 +240,7 @@
             db.collection('QR').doc(userInfo.location).get().then(doc => {
               if (doc.exists) {
                 var classDetails = doc.data()
-                this.QR = classDetails /* .orderBy('homework_timestamp', 'desc').limit(5) for line below */
+                this.QR = classDetails /* .orderBy('homework_timestamp', 'desc').limit(5) for line below  TODO add this code to the line below */
                 db.collection('QR').doc(userInfo.location).collection('homework').get().then((snap) => { // The homework is orderedBy newest to oldest and only shows the latest 5 assignemnts *.limit()*
                   const items = snap.docs.reduce((res, item) => (/* Homework info returned from Firestore must be modified using this function  */
                     {...res, [item.id]: item.data()}),
