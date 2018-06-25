@@ -15,6 +15,8 @@ import {store} from './store/store.js'
 import VueAnalytics from 'vue-analytics'
 import Raven from 'raven-js'
 import RavenVue from 'raven-js/plugins/vue'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
 
 Raven
   .config('https://5abe71266a774037b0f3ff0c448cf0f1@sentry.io/1221611')
@@ -37,11 +39,9 @@ Vue.config.productionTip = false
 Vue.use(VueFire)
 Vue.use(VueAnalytics, {
   id: 'UA-111818409-2',
-  router,
-  autoTracking: {
-    exception: true
-  }
+  router
 })
+Vue.use(VueAxios, axios)
 
 /* eslint-disable no-new */
 new Vue({

@@ -5,6 +5,7 @@
       <img class="mt-5" src="../../assets/App Sign In Free English Class.png"/>
         </v-flex>
       <div id="firebaseui-auth-container"></div> <!--TODO Change the CSS of firebase auth when a user tries to sign in through email, ie button colors, white line etc-->
+        <p class="text-xs-center text-lg-center white--text mt-5"><a class="white--text" href="http://taiwaneng.com/privacy-policy">隱私權政策</a></p>
       </div>
     </v-layout>
 </template>

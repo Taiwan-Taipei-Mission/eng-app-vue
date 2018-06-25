@@ -55,18 +55,18 @@
         <h4>{{ QR.teacherName }}</h4>
       </v-flex>
       <v-flex class="classinfo" xs7>
-        <h2>{{ QR.classLocation }} {{ QR.classLevel }}</h2>
+        <h2>{{ QR.classLocation }}  {{ QR.classLevel }}</h2>
         <h3>{{ QR.classTime }}</h3>
       </v-flex>
     </v-layout>
   </v-toolbar>
     <v-layout row>
-    <v-flex xs12 class="text-xs-center ">
-      <v-btn block class="check-in ma-0" large route to="checkIn" color="secondary">Check Into Class</v-btn>
-    </v-flex>
-    </v-layout>
-    <v-list> <!--TODO Restrict amount of homework that that can be loaded and load by newest first-->
-      <v-subheader >Homework</v-subheader>
+      <v-flex xs12 class="text-xs-center ">
+        <v-btn block class="check-in ma-0" large route to="checkIn" color="secondary">報到</v-btn> <!--Check Into Class-->
+      </v-flex>
+      </v-layout>
+      <v-list> <!--TODO Restrict amount of homework that that can be loaded and load by newest first-->
+        <v-subheader >回家功課</v-subheader> <!--Homework-->
       <v-divider></v-divider>
       <template v-for="(homework, index) in homework">
         <v-list-tile
@@ -91,7 +91,8 @@
     </v-list>
       <div v-if="alert3">
       <v-alert  @click="dialog2 = true" :value="true" type="warning" class="text-xs-center ma-0">
-        Please provide your phone number or Line ID, so your teacher can contact you individually.
+        請提供您的電話號碼或是Line ID，讓您的老師能夠與您聯絡。
+       <!-- Please provide your phone number or Line ID, so your teacher can contact you individually.-->
           <!--<v-btn @click="checkContactInfo" color="primary" dark>Open Dialog</v-btn>-->
       </v-alert>
       <v-btn @click="dialog2 = true" color="warning" class="ma-0" block><v-icon>create</v-icon></v-btn>
@@ -105,9 +106,9 @@
             <v-card-text>{{message.description}}</v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn flat @click.native="dialog = false">Cancel</v-btn>
+              <v-btn flat @click.native="dialog = false">取消</v-btn> <!--Cancel-->
               <v-btn color="green darken-1" flat :loading="loading3" :disabled="loading3" @click.native="loading3 = true" :href="this.message.homeworkURL"
-              >Open</v-btn>
+              >開啟</v-btn> <!--Open-->
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -119,7 +120,7 @@
         <v-dialog v-model="dialog2" persistent max-width="500px">
           <v-card>
             <v-card-title>
-              <span class="headline">Contact Info</span>
+              <span class="headline"> 聯絡資料</span> <!--Contact Info-->
             </v-card-title>
             <v-card-text>
               <v-container grid-list-md>
@@ -129,12 +130,12 @@
                     <v-text-field
                       name="input-1-1"
                       :rules="nameRules"
-                      label="Phone Number" hint=""
+                      label="電話號碼" hint=""
                       single-line
                       prepend-icon="phone"
                       v-model="phoneNumber"
                       required
-                    ></v-text-field>
+                    ></v-text-field> <!--Phone Number-->
                   </v-flex>
                   <v-flex>
                     <v-text-field
@@ -148,12 +149,12 @@
                   </v-form>
                 </v-layout>
               </v-container>
-              <small>*indicates required field</small>
+              <small>*必填</small> <!--indicates required field-->
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="green darken-1" flat @click.native="dialog2 = false">Cancel</v-btn>
-              <v-btn color="green darken-1" flat @click="firestore2">Submit</v-btn>
+              <v-btn color="green darken-1" flat @click.native="dialog2 = false">取消</v-btn> <!--Cancel-->
+              <v-btn color="green darken-1" flat @click="firestore2">儲存</v-btn> <!--Submit-->
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -165,8 +166,8 @@
         :multi-line="true"
         v-model="snackbar"
       >
-        Contact info succesfully registered
-        <v-btn flat color="pink" @click.native="snackbar = false">Close</v-btn>
+        聯絡資料已成功接收
+        <v-btn flat color="pink" @click.native="snackbar = false">關閉</v-btn> <!--Contact info succesfully registered--> <!--close-->
       </v-snackbar>
 
       <v-snackbar
@@ -175,8 +176,8 @@
         :multi-line="true"
         v-model="succesfulCheckin"
       >
-        Class Checkin Succesful
-        <v-btn flat color="pink" @click.native="snackbar2 = false">Close</v-btn>
+      成功報到
+        <v-btn flat color="pink" @click.native="snackbar2 = false">關閉</v-btn> <!--Class Checkin Succesful--> <!--close-->
       </v-snackbar>
 
     </template>
@@ -213,8 +214,8 @@
         snackbar2: false,
         email: '',
         nameRules: [
-          v => !!v || 'Phone number is required',
-          v => v.length >= 10 || 'Phone number is required'
+          v => !!v || '電話號碼必填', /* Phone number is required */
+          v => v.length >= 10 || '電話號碼必填' /* Phone number is required */
         ],
         valid: false
       }
@@ -240,8 +241,8 @@
             db.collection('QR').doc(userInfo.location).get().then(doc => {
               if (doc.exists) {
                 var classDetails = doc.data()
-                this.QR = classDetails /* .orderBy('homework_timestamp', 'desc').limit(5) for line below  TODO add this code to the line below */
-                db.collection('QR').doc(userInfo.location).collection('homework').get().then((snap) => { // The homework is orderedBy newest to oldest and only shows the latest 5 assignemnts *.limit()*
+                this.QR = classDetails
+                db.collection('QR').doc(userInfo.location).collection('homework').orderBy('homework_timestamp', 'desc').limit(4).get().then((snap) => { // The homework is orderedBy newest to oldest and only shows the latest 5 assignemnts *.limit()*
                   const items = snap.docs.reduce((res, item) => (/* Homework info returned from Firestore must be modified using this function  */
                     {...res, [item.id]: item.data()}),
                   {})

@@ -8,6 +8,7 @@ import ClassPage from '@/components/Class/ClassPage'
 import Auth from '@/components/User/Auth'
 import Help from '@/components/User/Help'
 import aboutMissionaries from '@/components/Class/aboutMissionaries'
+import WOTD from '@/components/Class/WOTD'
 
 Vue.use(Router)
 
@@ -16,6 +17,7 @@ var routes = [
   { path: '/checkin', name: 'checkin', component: CheckIn, meta: { requireAuth: true } },
   { path: '/classpage', name: 'ClassPage', component: ClassPage, meta: { requireAuth: true } },
   { path: '/help', name: 'Help', component: Help, meta: { requireAuth: true } },
+  { path: '/wotd', name: 'WOTD', component: WOTD, meta: { requireAuth: true } },
   { path: '/about-missionaries', name: 'aboutMissionaries', component: aboutMissionaries, meta: { requireAuth: true } },
   { path: '*', redirect: '/classpage' }
 ]

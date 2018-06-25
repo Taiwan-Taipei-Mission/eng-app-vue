@@ -26,7 +26,7 @@
               <v-icon>exit_to_app</v-icon>
             </v-list-tile-action>
             <v-list-tile-action></v-list-tile-action>
-            <v-list-tile-content>Logout </v-list-tile-content>
+            <v-list-tile-content>登出</v-list-tile-content> <!--Logout-->
           </v-list-tile>
         </v-list>
       </v-navigation-drawer>
@@ -42,7 +42,7 @@
           </v-btn>
           <v-btn flat @click="logOut">
             <v-icon left dark>exit_to_app</v-icon>
-          Logout</v-btn>
+            登出</v-btn> <!--Logout-->
         </v-toolbar-items>
       </v-toolbar>
 
@@ -61,8 +61,9 @@
       return {
         sideNav: false,
         menuItems: [
-          {icon: 'home', title: 'My Class', link: '/classpage'},
-          {icon: 'location_on', title: 'Check in', link: '/checkin'}
+          {icon: 'home', title: '我的班級', link: '/classpage'}, /* My Class */
+          {icon: 'location_on', title: ' 報到', link: '/checkin'}, /* Check in */
+          {icon: 'book', title: ' WOTD', link: '/wotd'}
           /* {icon: 'face', title: 'About Missionaries', link: '/about-missionaries'} */
           /* {icon: 'help', title: 'Help', link: '/help'} */
         ]

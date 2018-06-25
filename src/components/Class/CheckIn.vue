@@ -3,7 +3,7 @@
     <template>
       <v-toolbar dark flat extended extension-height="40" class="primary" height="0">
         <v-layout row slot="extension" >
-          <v-toolbar-title class="white--text">Class Check-in</v-toolbar-title>
+          <v-toolbar-title class="white--text">報到</v-toolbar-title> <!--Class Check-in-->
         </v-layout>
       </v-toolbar>
     </template>
@@ -13,8 +13,8 @@
       <v-layout row wrap>
         <v-flex class="text-xs-center mt-2">
           <v-btn large @click="runQR"  class="secondary"> <!--route to ="/QR"-->
-            Scan QR Code
-            <v-icon right  >photo_camera</v-icon></v-btn>
+            掃描QR碼
+            <v-icon right  >photo_camera</v-icon></v-btn> <!--Scan QR Code-->
         </v-flex>
       </v-layout>
     </v-container>
@@ -22,25 +22,25 @@
          <v-container fill-height>
            <v-layout row wrap>
              <v-flex class="text-xs-center">
-          <h2>or</h2>
+          <h2>或</h2> <!--or-->
           <v-text-field
             name="input-3"
-            label="Enter Class Code"
+            label="輸入班級代碼"
             value=""
             :error="alert2"
             v-model="classLocationInput"
             v-on:keyup.enter="classLocation"
             id="classField"
             data-hj-whitelist
-          ></v-text-field>
-          <v-btn large class="secondary" :disabled="!classLocationInput.length >= 1" v-on:click="classLocation" >Submit</v-btn>
+          ></v-text-field>  <!--Enter Class Code-->
+          <v-btn large class="secondary" :disabled="!classLocationInput.length >= 1" v-on:click="classLocation" >提交</v-btn> <!--Submit-->
         </v-flex>
       </v-layout>
     </v-container>
       <v-flex xs12 v-if="alert2">
         <v-alert v-model="alert2" type="error">
-          "{{userInput}}" not found. Please check your spelling and try again.
-        </v-alert>
+          「{{userInput}}」不存在。 請檢查您的代碼，並再試一次
+        </v-alert> <!--not found. Please check your spelling and try again.-->
       </v-flex>
     </div>
 
@@ -51,12 +51,12 @@
           <v-btn icon dark @click.native="dialog = false" @click="stopQR">
             <v-icon>close</v-icon>
           </v-btn>
-          <v-toolbar-title>Scan</v-toolbar-title>
+          <v-toolbar-title>掃描</v-toolbar-title> <!--Scan-->
           <v-spacer></v-spacer>
           <v-toolbar-items>
           </v-toolbar-items></v-toolbar>
         <div class="scanDialog">
-          <h1 v-show="loading">Loading...</h1>
+          <h1 v-show="loading">處理中...</h1> <!--Loading...-->
           <v-alert type="error" v-show="QRerror">{{QRerror}}</v-alert>
           <qrcode-reader v-if="activateQR" @init="onInit" @decode="onDecode"></qrcode-reader>
         </div>
@@ -140,7 +140,7 @@
       },
       onDecode (content) {
         if (content !== '') {
-          if (confirm('Checking you in for "' + content + '"')) {
+          if (confirm('您將報到.... "' + content + '"')) {
             let sanitizedInput = content.replace('/', ' ')
             /* TODO find the correct way to catch an error if the user scans a QR code containing a non alpha numeric string */
             this.classLocationInput = sanitizedInput
@@ -169,22 +169,22 @@
         } catch (error) {
           if (error.name === 'NotAllowedError') {
             // user denied camera access permisson
-            this.QRerror = 'Camera Access Denied'
+            this.QRerror = '尚未允許相機存取權限' /* Camera Access Denied */
           } else if (error.name === 'NotFoundError') {
             // no suitable camera device installed
-            this.QRerror = 'Camera Not Found'
+            this.QRerror = '找不到合適的相機裝置' /* Camera Not Found */
           } else if (error.name === 'NotSupportedError') {
             // page is not served over HTTPS (or localhost)
-            this.QRerror = 'QR Not Supported'
+            this.QRerror = '沒有掃QR的功能' /* QR Not Supported */
           } else if (error.name === 'NotReadableError') {
             // maybe camera is already in use
-            this.QRerror = 'Camera Currently Being Used By Other Application'
+            this.QRerror = '其他應用程式正在使用相機' /* Camera Currently Being Used By Other Application */
           } else if (error.name === 'OverconstrainedError') {
             // passed constraints don't match any camera. Did you requested the front camera although there is none?
-            this.QRerror = 'Camera Not Found '
+            this.QRerror = '檢查是否正確使用相機裝置' /* Camera Not Found */
           } else {
             // browser is probably lacking features (WebRTC, Canvas)
-            this.QRerror = 'QR Scanner Not Supported By Your Browser'
+            this.QRerror = '您的瀏覽器沒有掃QR的功能' /* QR Scanner Not Supported By Your Browser */
           }
         } finally {
           this.loading = false

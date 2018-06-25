@@ -14,9 +14,11 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "firebase": "^4.13.1",
     "firebaseui": "^2.7.0",
     "fs": "0.0.1-security",
+    "google-translate-api": "^2.3.0",
     "instascan": "^1.0.0",
     "jsqr": "^1.0.4",
     "mixins": "0.0.1",
@@ -24,6 +26,7 @@
     "vee-validate": "^2.0.9",
     "vue": "^2.5.2",
     "vue-analytics": "^5.12.2",
+    "vue-axios": "^2.1.1",
     "vue-qrcode-reader": "^0.7.4",
     "vue-router": "^3.0.1",
     "vuefire": "^2.0.0-alpha.11",
