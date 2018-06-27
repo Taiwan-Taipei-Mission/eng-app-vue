@@ -231,18 +231,21 @@
         console.log(this.message.title)
       },
       firestore () {
-        db.collection('Users').doc(this.user.email).get().then(doc => {
+        db.collection('Users').doc(this.user.uid).get().then(doc => {
           if (doc.exists) {
             var userInfo = doc.data()
             console.log(userInfo.location)
             this.searchString = userInfo.location
+            let classArea = userInfo.location.slice(0, -3) /* Slices everything but the last 3 characters away */
+            let classLevel = userInfo.location.substr(-3) /* Displays the class level (the last 3 Chinese characters in the string) */
             this.userContactInfo = userInfo
             this.checkContactInfo()
-            db.collection('QR').doc(userInfo.location).get().then(doc => {
+            /* /English_Units/Xizhi/Class Level/underwater knitting/classRole/06-22-2018/students */
+            db.collection('English_Units').doc(classArea).collection('Class Level').doc(classLevel).get().then(doc => { /* TODO CHANGE THIS CODE BACK take out the mult split string */
               if (doc.exists) {
                 var classDetails = doc.data()
                 this.QR = classDetails
-                db.collection('QR').doc(userInfo.location).collection('homework').orderBy('homework_timestamp', 'desc').limit(4).get().then((snap) => { // The homework is orderedBy newest to oldest and only shows the latest 5 assignemnts *.limit()*
+                db.collection('English_Units').doc(classArea).collection('Class Level').doc(classLevel).collection('homework').orderBy('homework_timestamp', 'desc').limit(4).get().then((snap) => { /* TODO CHANGE THIS CODE BACK take out the mult split string */ // The homework is orderedBy newest to oldest and only shows the latest 5 assignemnts *.limit()*
                   const items = snap.docs.reduce((res, item) => (/* Homework info returned from Firestore must be modified using this function  */
                     {...res, [item.id]: item.data()}),
                   {})
@@ -267,7 +270,7 @@
       firestore2 () {
         this.$refs.form.validate()
         if (this.valid) {
-          db.collection('Users').doc(this.user.email).set({
+          db.collection('Users').doc(this.user.uid).set({
             phoneNumber: this.phoneNumber,
             lineID: this.lineID
           }, {merge: true})

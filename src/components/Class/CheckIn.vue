@@ -93,19 +93,22 @@
       classLocation () {
         this.$store.dispatch('classLocation', this.classLocationInput.toLowerCase())
         let trimString = this.classLocationInput.trim()
-        let originalString = trimString.toLowerCase()
+        let originalString = trimString /* .toLowerCase()) */ /* TODO CHANGE THIS CODE BACK */
+        let classArea = originalString.slice(0, -3) /* Slices everything but the last 3 characters away */
+        var classLevel = originalString.substr(-3) /* Displays the class level (the last 3 Chinese characters in the string) */
         this.date()
-        db.collection('QR').doc(originalString).get().then(doc => {
+        db.collection('English_Units').doc(classArea).collection('Class Level').doc(classLevel).get().then(doc => { /* TODO CHANGE THIS CODE BACK take out the mult split string */
           if (doc.exists) {
             console.log('set date for classRole')
-            db.collection('QR').doc(originalString).collection('classRole').doc(this.today).set({
+            db.collection('English_Units').doc(classArea).collection('Class Level').doc(classLevel).collection('classRole').doc(this.today).set({ /* TODO CHANGE THIS CODE BACK take out the mult split string */
               date: this.today
             }, {merge: true})
-            console.log('trying to make doc for student details')
-            db.collection('QR').doc(originalString).collection('classRole').doc(this.today).collection('students').doc(this.user.email).set({
-              studentID: this.user.email
+            /* /English_Units/Xizhi/Class Level/underwater knitting/classRole/06-22-2018/students */
+            db.collection('English_Units').doc(classArea).collection('Class Level').doc(classLevel).collection('classRole').doc(this.today).collection('students').doc(this.user.uid).set({ /* TODO CHANGE THIS CODE BACK take out the mult split string */
+              studentID: this.user.uid,
+              studentEmail: this.user.email
             }, {merge: true})
-            db.collection('Users').doc(this.user.email).set({lastSearchAttempt: originalString, location: originalString, studentName: this.user.displayName, photo: this.user.photoURL + '?width=9999', uid: this.user.uid}, {merge: true})
+            db.collection('Users').doc(this.user.uid).set({lastSearchAttempt: originalString, location: originalString, studentName: this.user.displayName, photo: this.user.photoURL + '?width=9999', uid: this.user.uid, email: this.user.email}, {merge: true})
             console.log('success')
             this.alert2 = false
             this.$store.commit('successfulCheckin') // Activates the successful checkin toast on the ClassPage
@@ -116,7 +119,7 @@
             this.alert2 = true
             this.dialog = false
             document.getElementById('classField').blur() // Blurs the element so that the keyboard will disappear and allow the user to see the alert
-            db.collection('AppLogs').doc(this.user.email).set({failedSearchAttempt: originalString, lastSearchedAt: firebase.firestore.FieldValue.serverTimestamp()}, {merge: true}) // Logs the failed search attempt
+            db.collection('AppLogs').doc(this.user.uid).set({failedSearchAttempt: originalString, lastSearchedAt: firebase.firestore.FieldValue.serverTimestamp(), email: this.user.email}, {merge: true}) // Logs the failed search attempt
           }
         })
       },
