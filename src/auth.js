@@ -2,10 +2,10 @@ import firebase from 'firebase'
 import firebaseui from 'firebaseui'
 
 const config = {
-  apiKey: 'AIzaSyCPg6kfcYxuPHwyMW9SsmVqyPO4AUcWQVM',
-  authDomain: 'taiwaneng-alpha.firebaseapp.com',
-  databaseURL: 'https://taiwaneng-alpha.firebaseio.com',
-  projectId: 'taiwaneng-alpha'
+  apiKey: 'AIzaSyD_ahJsWDsGHPxU14BG70CoayMkU76gTK4',
+  authDomain: 'taiwan-english.firebaseapp.com',
+  databaseURL: 'https://taiwan-english.firebaseio.com',
+  projectId: 'taiwan-english'
 }
 
 const auth = {

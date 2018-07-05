@@ -13,11 +13,11 @@
       <v-layout row justify-center>
         <v-dialog v-model="alert" persistent max-width="290">
           <v-card>
-            <v-card-title class="headline">Welcome {{user.displayName}}!</v-card-title>
-            <v-card-text>Looks like you haven't checked into a class before, just tap the button below to get started.</v-card-text>
+            <v-card-title class="headline">{{user.displayName}}歡迎！</v-card-title> <!--welcome!-->
+            <v-card-text>看起來您似乎尚未註冊，請點選下方來繼續。</v-card-text> <!--Looks like you haven't checked into a class before, just tap the button below to get started.-->
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="green darken-1" flat @click.native="alert = false" route to="checkIn">Check into Class</v-btn>
+              <v-btn color="green darken-1" flat @click.native="alert = false" route to="checkIn">註冊</v-btn> <!--Check into Class-->
             </v-card-actions>
           </v-card>
         </v-dialog>
