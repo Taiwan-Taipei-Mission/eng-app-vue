@@ -63,8 +63,8 @@
         menuItems: [
           {icon: 'home', title: '我的班級', link: '/classpage'}, /* My Class */
           {icon: 'location_on', title: ' 報到', link: '/checkin'}, /* Check in */
-          {icon: 'book', title: ' WOTD', link: '/wotd'}
-          /* {icon: 'face', title: 'About Missionaries', link: '/about-missionaries'} */
+          {icon: 'book', title: ' WOTD', link: '/wotd'},
+          {icon: 'face', title: 'About Missionaries', link: '/about-missionaries'}
           /* {icon: 'help', title: 'Help', link: '/help'} */
         ]
       }
