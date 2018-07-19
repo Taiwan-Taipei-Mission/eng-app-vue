@@ -1,15 +1,20 @@
+<!--TODO Change the source of the background image to something that is hand selected by us-->
+<!--TODO Either take off the link or link it an additional website that contails info on the Word of the Day-->
+<!--TODO Make the CSS on the picture background reactive and adjust to the size of the screen-->
+
 <template>
   <div id="inspire">
 <!--<v-btn @click="test">Test</v-btn>-->
     <div id="date" class="font shadedbg">
-      {{date}}
+      {{ this.displayDateVal }}
+      {{ this.today }} <!--TODO remove this after testing-->
     </div>
     <!--<p id="favorites" class="shadedbg">favorites</p>
     <div id="fave-panel"></div>-->
     <div id="all" class="font centered shadedbg">
-      <a id="link" href="#" target="_blank"><div id="word">{{this.WOTD.word}}</div></a>
-      <div id="pronun"></div>
-      <div id="defin">{{this.WOTD.definitions[0].text}}</div>
+      <a id="link" href="#" target="_blank"><div id="word">{{ this.WOTD.englishWord }}</div></a>
+      <div id="pronun">{{ this.WOTD.chineseWord }}</div>
+      <div id="defin">{{ this.WOTD.englishSentence }}</div>
       <br>
       <br>
     </div>
@@ -17,11 +22,14 @@
 </template>
 
 <script>
+  import { db } from '../../main'
+
   export default {
     data () {
       return {
         WOTD: {},
-        date: {}
+        displayDateVal: {},
+        today: ''
       }
     },
     created () {
@@ -29,19 +37,17 @@
     },
     methods: {
       test () {
-        this.axios.get('https://api.wordnik.com/v4/words.json/wordOfTheDay?api_key=3e652199b14a62ddad23719c96ccd6f0cb40c7185ecf46000').then((response) => {
-          console.log(response.data)
-          this.WOTD = response.data
-          console.log(this.WOTD)
-          this.getDate()
+        this.displayDate()
+        this.date()
+        db.collection('wotd').doc(this.today).get().then(doc => {
+          if (doc.exists) {
+            this.WOTD = doc.data()
+          } else {
+            console.log('Error: WOTD Doc not found in firestore')
+          }
         })
       },
-      test2 () {
-        this.axios.post('https://api.cognitive.microsoft.com/sts/v1.0/issueToken?Subscription-Key=b2eb8c3530ef43a28d10d6ae8fa68025').then((response) => {
-          console.log(response.data)
-        })
-      },
-      getDate () {
+      displayDate () {
         var monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
         var date = new Date()
         var day = date.getDate()
@@ -57,7 +63,25 @@
         } else {
           marker = 'th'
         }
-        this.date = monthNames[monthIndex] + ' ' + day + marker + ' ' + year
+        this.displayDateVal = monthNames[monthIndex] + ' ' + day + marker + ' ' + year
+      },
+      date () {
+        var today = new Date()
+        var dd = today.getDate()
+        var mm = today.getMonth() + 1 // January is 0!
+        /* var yyyy = today.getFullYear() */
+
+        /* if (dd < 10) {
+          dd = '0' + dd
+        }
+
+        if (mm < 10) {
+          mm = '0' + mm
+        } */
+
+        today = mm + '-' + dd /* + '-' + yyyy */
+        this.today = today
+        console.log(today)
       },
       placeImage (w, h) {
         w = window.screen.availWidth
@@ -159,6 +183,7 @@
 
    #pronun {
      font-family: "Open Sans", sans-serif;
+     font-size: 2.0em;
    }
 
    .fa-heart-o {
